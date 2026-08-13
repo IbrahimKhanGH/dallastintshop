@@ -1,6 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 import DallasSkyline from "./DallasSkyline";
 import { BUSINESS } from "@/lib/data";
+
+// Mirrors the steps in components/quote/QuoteForm.tsx. Showing the shape of
+// the flow up front is what makes it feel short enough to start.
+const QUOTE_PREVIEW = [
+  { label: "Your vehicle", hint: "Year, make, model" },
+  { label: "Body style", hint: "Sedan, coupe, SUV, truck" },
+  { label: "What you need", hint: "Tap what applies" },
+  { label: "How to reach you", hint: "Text, call, or email" },
+];
 
 export default function CTASection() {
   return (
@@ -11,7 +21,7 @@ export default function CTASection() {
       {/* Background image — TODO: replace with shop interior photo */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2200&q=80"
+          src="/gallery/ppf/2025-02-19_car_ppf_DGRSZKAOQGo_6.jpg"
           alt=""
           fill
           sizes="100vw"
@@ -87,7 +97,10 @@ export default function CTASection() {
           </div>
         </div>
 
-        {/* Quick quote card */}
+        {/* Quick quote card — a teaser that hands off to the real flow at
+            /quote. Deliberately not a form: a second set of inputs here
+            would either duplicate the step engine or drop the lead, and a
+            half-width card is the wrong place for a four-step flow. */}
         <div className="card-edge relative rounded-md bg-black/60 p-6 backdrop-blur sm:p-8">
           <div className="mb-6 flex items-center justify-between">
             <h3 className="h-display text-2xl uppercase tracking-wide text-white">
@@ -98,61 +111,41 @@ export default function CTASection() {
             </span>
           </div>
 
-          <form className="space-y-4" action="#" method="post">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label="Name" name="name" placeholder="Your name" />
-              <Field label="Phone" name="phone" placeholder="(214) 000-0000" />
-            </div>
-            <Field label="Vehicle" name="vehicle" placeholder="Year / Make / Model" />
+          <p className="text-sm text-white/65">
+            Four quick steps — about thirty seconds. No account, no pressure,
+            and a real person reads every one.
+          </p>
 
-            <div>
-              <label className="h-display mb-2 block text-[10px] uppercase tracking-[0.3em] text-white/60">
-                Services
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Tint",
-                  "PPF",
-                  "Wrap",
-                  "Ceramic Coating",
-                  "Paint Correction",
-                  "Powder Coating",
-                ].map((s) => (
-                  <label
-                    key={s}
-                    className="cursor-pointer rounded-full border border-white/15 bg-white/[0.03] px-3 py-1.5 text-xs text-white/85 transition-all hover:border-brand-red/60 hover:bg-brand-red/10 has-[:checked]:border-brand-red has-[:checked]:bg-brand-red/15 has-[:checked]:text-white"
-                  >
-                    <input type="checkbox" name="services" value={s} className="sr-only" />
-                    {s}
-                  </label>
-                ))}
-              </div>
-            </div>
+          <ol className="mt-6 space-y-3">
+            {QUOTE_PREVIEW.map((s, i) => (
+              <li key={s.label} className="flex items-start gap-3">
+                <span className="h-display mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white/10 text-[11px] text-white/70">
+                  {i + 1}
+                </span>
+                <div className="min-w-0">
+                  <div className="h-display text-sm uppercase tracking-widest text-white">
+                    {s.label}
+                  </div>
+                  <div className="text-xs text-white/45">{s.hint}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
 
-            <div>
-              <label className="h-display mb-2 block text-[10px] uppercase tracking-[0.3em] text-white/60">
-                Notes
-              </label>
-              <textarea
-                name="notes"
-                rows={3}
-                placeholder="Tell us what you're going for…"
-                className="w-full rounded-sm border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand-red focus:outline-none"
-              />
-            </div>
+          <Link
+            href="/quote"
+            className="h-display group relative mt-7 flex w-full items-center justify-center gap-2 overflow-hidden rounded-sm bg-red-grad px-6 py-4 text-sm uppercase tracking-[0.25em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
+          >
+            Start your quote
+            <span className="transition-transform group-hover:translate-x-0.5">
+              →
+            </span>
+            <span className="absolute inset-y-0 right-0 w-14 -skew-x-12 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          </Link>
 
-            <button
-              type="submit"
-              className="h-display group relative w-full overflow-hidden rounded-sm bg-red-grad px-6 py-4 text-sm uppercase tracking-[0.25em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
-            >
-              Request Quote
-              <span className="absolute inset-y-0 right-0 w-14 -skew-x-12 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </button>
-
-            <p className="text-center text-[11px] text-white/40">
-              We&apos;ll text or call back within business hours.
-            </p>
-          </form>
+          <p className="mt-3 text-center text-[11px] text-white/40">
+            We&apos;ll text or call back within business hours.
+          </p>
         </div>
       </div>
 
@@ -162,32 +155,5 @@ export default function CTASection() {
         fill="#0a0a0a"
       />
     </section>
-  );
-}
-
-function Field({
-  label,
-  name,
-  placeholder,
-}: {
-  label: string;
-  name: string;
-  placeholder?: string;
-}) {
-  return (
-    <div>
-      <label
-        htmlFor={name}
-        className="h-display mb-2 block text-[10px] uppercase tracking-[0.3em] text-white/60"
-      >
-        {label}
-      </label>
-      <input
-        id={name}
-        name={name}
-        placeholder={placeholder}
-        className="w-full rounded-sm border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-brand-red focus:outline-none"
-      />
-    </div>
   );
 }

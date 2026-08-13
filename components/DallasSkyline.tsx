@@ -41,7 +41,7 @@ export default function DallasSkyline({ className = "", fill = "#050505" }: Prop
         {/* BoA Plaza (tallest, with antenna) */}
         <rect x="540" y="40" width="80" height="180" />
         <polygon points="540,40 580,10 620,40" />
-        <rect x="578,5" y="0" width="4" height="14" />
+        <rect x="578.5" y="0" width="4" height="14" />
         <rect x="578" y="-2" width="4" height="14" />
 
         {/* Comerica-ish */}

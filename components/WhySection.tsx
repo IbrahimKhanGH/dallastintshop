@@ -8,10 +8,10 @@ export default function WhySection() {
       id="why"
       className="relative overflow-hidden border-t border-white/10 bg-brand-black py-20 sm:py-28"
     >
-      {/* Background photo — TODO: replace with the real shop / red mural shot */}
+      {/* Background photo — the shop's own bay, from their Instagram */}
       <div className="absolute inset-0 -z-10 opacity-40">
         <Image
-          src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=2400&q=80"
+          src="/gallery/tint/2025-02-24_car_tint_DGduQZuuae1_1.jpg"
           alt=""
           fill
           sizes="100vw"

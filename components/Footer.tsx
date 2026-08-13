@@ -78,7 +78,6 @@ export default function Footer() {
             <li>Vinyl Wraps</li>
             <li>Ceramic Coating</li>
             <li>Paint Correction</li>
-            <li>Detailing</li>
             <li>Powder Coating</li>
           </ul>
         </div>
@@ -95,15 +94,20 @@ export default function Footer() {
               </span>
             ))}
           </address>
-          <div className="mt-4 space-y-1 text-sm">
-            <a href={BUSINESS.phoneHref} className="block text-white hover:text-brand-red">
+          {/* -my-2 keeps the visual spacing identical while py-2 grows the
+              hit area to a comfortable thumb target on mobile. */}
+          <div className="mt-2 text-sm sm:mt-4">
+            <a
+              href={BUSINESS.phoneHref}
+              className="block py-2 text-white transition-colors hover:text-brand-red sm:py-0.5"
+            >
               {BUSINESS.phone}
             </a>
             <a
               href={BUSINESS.instagram}
               target="_blank"
               rel="noreferrer"
-              className="block text-white/70 hover:text-brand-red"
+              className="block py-2 text-white/70 transition-colors hover:text-brand-red sm:py-0.5"
             >
               {BUSINESS.instagramHandle}
             </a>
@@ -113,11 +117,11 @@ export default function Footer() {
 
       <div className="mx-auto mt-14 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/10 px-4 pt-6 text-xs text-white/40 sm:flex-row sm:px-6 lg:px-8">
         <div>© {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.</div>
-        <div className="flex items-center gap-6">
-          <Link href="#" className="hover:text-white/80">
+        <div className="flex items-center gap-5">
+          <Link href="/privacy" className="px-1 py-2 transition-colors hover:text-white/80">
             Privacy
           </Link>
-          <Link href="#" className="hover:text-white/80">
+          <Link href="/terms" className="px-1 py-2 transition-colors hover:text-white/80">
             Terms
           </Link>
           <span className="h-display tracking-[0.3em]">RICHARDSON · TX</span>

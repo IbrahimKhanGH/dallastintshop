@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import DallasSkyline from "./DallasSkyline";
 import { TRUST_CHIPS, BUSINESS } from "@/lib/data";
 
@@ -53,15 +54,17 @@ export default function Hero() {
           {/* Subtext */}
           <p className="mt-6 max-w-xl text-base text-white/70 sm:text-lg">
             Performance-focused{" "}
-            <span className="text-white">tint, PPF, wraps, ceramic coating,</span>{" "}
-            and detailing — trusted by Dallas car enthusiasts who don&apos;t
-            settle.
+            <span className="text-white">
+              tint, PPF, wraps, ceramic coating,
+            </span>{" "}
+            and paint correction — trusted by Dallas car enthusiasts who
+            don&apos;t settle.
           </p>
 
           {/* CTAs */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href="#contact"
+            <Link
+              href="/quote"
               className="h-display group relative inline-flex items-center gap-3 overflow-hidden rounded-sm bg-red-grad px-6 py-4 text-sm uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg sm:text-base"
             >
               <span>Get a Quote</span>
@@ -74,7 +77,7 @@ export default function Hero() {
                 />
               </svg>
               <span className="absolute inset-y-0 right-0 w-14 -skew-x-12 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </a>
+            </Link>
             <a
               href="#work"
               className="h-display group inline-flex items-center gap-3 rounded-sm border border-white/20 bg-white/[0.04] px-6 py-4 text-sm uppercase tracking-[0.2em] text-white backdrop-blur transition-all hover:bg-white/10 sm:text-base"
@@ -138,8 +141,8 @@ export default function Hero() {
             <div className="relative overflow-hidden rounded-[5px] bg-black">
               <div className="relative aspect-[3/4] w-full">
                 <Image
-                  src="/malikMclaren.png"
-                  alt="Purple McLaren 720S with dihedral door up at the Dallas Tint Shop studio"
+                  src="/gallery/ppf/2025-03-06_car_ppf_DG3e4auuq0Z_1.jpg"
+                  alt="Purple Lamborghini Aventador with the doors up against the Dallas Tint Shop mural"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 40vw"
@@ -160,7 +163,7 @@ export default function Hero() {
                 {/* Bottom meta */}
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <div className="h-display text-2xl uppercase tracking-wide text-white sm:text-3xl">
-                    McLaren 720S
+                    Lamborghini Aventador
                   </div>
                   <div className="mt-1 text-sm text-white/75">
                     Out of the Dallas Tint Shop studio
@@ -172,7 +175,7 @@ export default function Hero() {
 
           {/* Floating stat pills */}
           <div className="absolute -left-3 top-8 hidden rotate-[-4deg] rounded-sm border border-white/10 bg-black/80 px-3 py-2 shadow-redGlow backdrop-blur sm:block">
-            <div className="h-display text-2xl text-brand-red">720S</div>
+            <div className="h-display text-2xl text-brand-red">Lambo</div>
             <div className="text-[10px] uppercase tracking-widest text-white/60">
               Latest in the bay
             </div>

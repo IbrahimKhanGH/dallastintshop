@@ -19,6 +19,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
+# guard against a plain .env holding the Textbelt secret
+.env
 
 # vercel
 .vercel

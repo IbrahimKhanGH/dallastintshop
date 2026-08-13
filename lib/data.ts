@@ -1,21 +1,29 @@
+import { IG_POSTS } from "./gallery";
+
+/* ⚠️ LAUNCH BLOCKERS — every field marked TODO below is invented.
+   None of it can go live on the shop's real domain as-is. */
 export const BUSINESS = {
   name: "Dallas Tint Shop",
   shortName: "DTS",
-  phone: "(469) 555-0123", // TODO: replace with real number
-  phoneHref: "tel:+14695550123",
+  // Phone, address and hours below are transcribed from the shop's own
+  // Instagram captions (the same block appears on 84–90 posts).
+  phone: "(469) 655-2884",
+  phoneHref: "tel:+14696552884",
   instagram: "https://instagram.com/thedallastintshop",
   instagramHandle: "@thedallastintshop",
-  address: "630 South Central Expressway, Richardson, TX 75080",
+  address: "630 South Central Expressway, Suite 104, Richardson, TX 75080",
   addressShort: "Richardson, TX",
   mapsHref:
-    "https://www.google.com/maps/dir/?api=1&destination=630+South+Central+Expressway+Richardson+TX+75080",
+    "https://www.google.com/maps/dir/?api=1&destination=630+South+Central+Expressway+Suite+104+Richardson+TX+75080",
   hours: [
-    { day: "Mon – Fri", hours: "9:00 AM – 7:00 PM" },
-    { day: "Saturday", hours: "10:00 AM – 5:00 PM" },
-    { day: "Sunday", hours: "By Appointment" },
+    { day: "Mon – Sat", hours: "10:00 AM – 7:00 PM" },
+    { day: "Sunday", hours: "Closed" },
   ],
+  // Verified against their Google Business Profile (Dallas Tint Shop,
+  // 630 S Central Expy #104 — the listing that matches this phone number).
+  // Re-check periodically; the count only goes up.
   rating: 5.0,
-  reviewCount: 180,
+  reviewCount: 138,
 } as const;
 
 export type Service = {
@@ -23,8 +31,7 @@ export type Service = {
   title: string;
   short: string;
   bullets: string[];
-  // Image source (placeholder Unsplash automotive shots).
-  // TODO: Replace these with real studio photography from Dallas Tint Shop.
+  /** Real shop photography pulled from @thedallastintshop (see lib/gallery.ts). */
   image: string;
   tag: string;
 };
@@ -41,7 +48,7 @@ export const SERVICES: Service[] = [
       "Lab-cut precision install",
     ],
     image:
-      "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1600&q=80",
+      "/gallery/tint/2025-02-24_car_tint_DGduQZuuae1_2.jpg",
     tag: "Tint",
   },
   {
@@ -55,7 +62,7 @@ export const SERVICES: Service[] = [
       "10-year warranty",
     ],
     image:
-      "https://images.unsplash.com/photo-1568844293986-8d0400bd4745?auto=format&fit=crop&w=1600&q=80",
+      "/gallery/ppf/2026-01-28_car_ppf_DUEnTXCDqoQ_1.jpg",
     tag: "PPF",
   },
   {
@@ -65,7 +72,7 @@ export const SERVICES: Service[] = [
       "Color change wraps in satin, gloss, matte, and chrome — installed clean enough to fool a factory rep.",
     bullets: ["Full color change", "Accents, roofs & hoods", "Avery / 3M / KPMF"],
     image:
-      "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1600&q=80",
+      "/gallery/ppf/2025-02-19_car_ppf_DGRSZKAOQGo_2.jpg",
     tag: "Wraps",
   },
   {
@@ -75,7 +82,7 @@ export const SERVICES: Service[] = [
       "9H-rated coatings that lock in gloss, water-bead like a magnet, and turn weekly washes into a 10-minute job.",
     bullets: ["2, 5, 7 & 10-year systems", "Hydrophobic finish", "UV stable"],
     image:
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600&q=80",
+      "/gallery/wrap/2026-01-20_porsche_wrap_DTv-QkxDn6N_3.jpg",
     tag: "Coating",
   },
   {
@@ -85,19 +92,10 @@ export const SERVICES: Service[] = [
       "Multi-stage machine polish that removes swirls, etching, and oxidation to reset your paint to better-than-new.",
     bullets: ["1, 2 & 3-stage corrections", "Wet sanding available", "Pre-coating prep"],
     image:
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80",
+      "/gallery/wrap/2026-01-20_porsche_wrap_DTv-QkxDn6N_1.jpg",
     tag: "Correction",
   },
-  {
-    slug: "detailing",
-    title: "Detailing",
-    short:
-      "Showroom-grade interior and exterior detailing — the kind of clean enthusiasts notice in the first 30 seconds.",
-    bullets: ["Full interior reset", "Engine bay detail", "Maintenance washes"],
-    image:
-      "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=80",
-    tag: "Detail",
-  },
+  // Detailing removed — the shop does not offer it.
   {
     slug: "powder-coating",
     title: "Powder Coating",
@@ -105,59 +103,197 @@ export const SERVICES: Service[] = [
       "Durable powder coating for wheels, calipers, and trim. Gloss black, satin red, custom colors — your call.",
     bullets: ["Wheels & calipers", "Custom color match", "Chip & corrosion proof"],
     image:
-      "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1600&q=80",
+      "/gallery/shop/2025-11-21_bentley_shop_DRVRIvlDnoJ_3.jpg",
     tag: "Powder",
   },
 ];
 
-export type GalleryItem = {
+export type WorkFilter = "tint" | "ppf" | "wrap" | "detail";
+
+export type ShowcaseTile = {
+  /** Unique per tile — the same post can contribute several photos. */
+  key: string;
+  /** Instagram permalink */
+  url: string;
+  kind: "photo" | "reel";
+  /** Still image, or the poster frame for a reel */
   src: string;
+  /** Local mp4, reels only */
+  video: string | null;
+  /** Badge text on the tile */
+  service: string;
+  filter: WorkFilter;
   alt: string;
-  span?: "tall" | "wide" | "square";
+  plays: number | null;
 };
 
-// TODO: Replace placeholders with real Dallas Tint Shop work photography.
-export const GALLERY: GalleryItem[] = [
+/* ---------------------------------------------------------------------
+   THE WORK — one feed, built from two sources.
+
+   This replaces what used to be three separate sections all showing the
+   same Instagram account (a stills grid, a reels rail, and a six-thumbnail
+   follow strip). Twenty-two tiles of one feed in a single scroll read as
+   padding; one filterable section reads as a portfolio.
+
+   Stills come from the shop's photo carousels — never from reel covers,
+   which carry burned-in captions ("HOW MUCH TINT BEETLE") that look like
+   clickbait on a gallery wall. Reels keep their covers, because there the
+   text belongs to a video you can actually play.
+
+   `filter` is set per tile, not inherited from the post: one carousel
+   (DGRSZKAOQGo) is a mixed showcase whose individual photos span tint,
+   PPF and wrap work, so the post's own category would mislabel them.
+--------------------------------------------------------------------- */
+const STILLS: (Omit<ShowcaseTile, "kind" | "video" | "plays" | "url"> & {
+  code: string;
+})[] = [
   {
-    src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80",
-    alt: "Black Tesla Model S with full ceramic tint",
-    span: "tall",
+    key: "corvette-sign",
+    code: "DGRSZKAOQGo",
+    src: "/gallery/ppf/2025-02-19_car_ppf_DGRSZKAOQGo_12.jpg",
+    alt: "Red Corvette parked under the Dallas Tint Shop storefront sign",
+    service: "Paint Protection Film",
+    filter: "ppf",
   },
   {
-    src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
-    alt: "Lamborghini under garage LED lighting",
-    span: "square",
+    key: "bentley-grille",
+    code: "DRVRIvlDnoJ",
+    src: "/gallery/shop/2025-11-21_bentley_shop_DRVRIvlDnoJ_1.jpg",
+    alt: "Bronze Bentley Bentayga front grille detail",
+    service: "Bentley Detail",
+    filter: "detail",
   },
   {
-    src: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80",
-    alt: "Red Dodge Challenger Hellcat under shop lights",
-    span: "wide",
+    key: "bmw-x7",
+    code: "DGduQZuuae1",
+    src: "/gallery/tint/2025-02-24_car_tint_DGduQZuuae1_4.jpg",
+    alt: "White BMW X7 with freshly tinted windows in the install bay",
+    service: "Window Tint",
+    filter: "tint",
   },
   {
-    src: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1200&q=80",
-    alt: "Window tint install close up",
-    span: "square",
+    key: "yellow-911",
+    code: "DGRSZKAOQGo",
+    src: "/gallery/ppf/2025-02-19_car_ppf_DGRSZKAOQGo_8.jpg",
+    alt: "Yellow Porsche 911 in the Dallas Tint Shop bay",
+    service: "Paint Protection Film",
+    filter: "ppf",
   },
   {
-    src: "https://images.unsplash.com/photo-1568844293986-8d0400bd4745?auto=format&fit=crop&w=1200&q=80",
-    alt: "PPF installer working on hood",
-    span: "tall",
+    key: "purple-chrome-tesla",
+    code: "DGRSZKAOQGo",
+    src: "/gallery/ppf/2025-02-19_car_ppf_DGRSZKAOQGo_7.jpg",
+    alt: "Tesla finished in a purple chrome colour-change wrap",
+    service: "Vinyl Wrap",
+    filter: "wrap",
   },
   {
-    src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80",
-    alt: "Water beading on ceramic coated paint",
-    span: "square",
+    key: "grey-911",
+    code: "DGRSZKAOQGo",
+    src: "/gallery/ppf/2025-02-19_car_ppf_DGRSZKAOQGo_5.jpg",
+    alt: "Grey Porsche 911 outside the Richardson shop",
+    service: "Paint Protection Film",
+    filter: "ppf",
   },
   {
-    src: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80",
-    alt: "Satin wrap finished BMW",
-    span: "wide",
+    key: "corvette-c8",
+    code: "DHL6CTds3NP",
+    src: "/gallery/tint/2025-03-14_car_tint_DHL6CTds3NP_1.jpg",
+    alt: "Black Corvette C8 in the bay against the Dallas Tint Shop mural",
+    service: "Window Tint",
+    filter: "tint",
   },
   {
-    src: "https://images.unsplash.com/photo-1617814086367-ed64d6dfafce?auto=format&fit=crop&w=1200&q=80",
-    alt: "BMW M3 in red ambient garage lighting",
-    span: "square",
+    key: "range-rover",
+    code: "DGduQZuuae1",
+    src: "/gallery/tint/2025-02-24_car_tint_DGduQZuuae1_5.jpg",
+    alt: "Champagne Range Rover with tinted glass under the shop lights",
+    service: "Window Tint",
+    filter: "tint",
   },
+  {
+    key: "green-amg",
+    code: "DVJlgI-jhGb",
+    src: "/gallery/ppf/2026-02-24_mercedes_ppf_DVJlgI-jhGb_4.jpg",
+    alt: "Mercedes-AMG finished in green paint protection film",
+    service: "Paint Protection Film",
+    filter: "ppf",
+  },
+  {
+    key: "porsche-crest",
+    code: "DTv-QkxDn6N",
+    src: "/gallery/wrap/2026-01-20_porsche_wrap_DTv-QkxDn6N_3.jpg",
+    alt: "Porsche crest on deep green gloss after a colour change",
+    service: "Vinyl Wrap",
+    filter: "wrap",
+  },
+  {
+    key: "bentley-wheel",
+    code: "DRVRIvlDnoJ",
+    src: "/gallery/shop/2025-11-21_bentley_shop_DRVRIvlDnoJ_3.jpg",
+    alt: "Bentley wheel face after powder coating",
+    service: "Powder Coating",
+    filter: "detail",
+  },
+  {
+    key: "lambo-bay",
+    code: "DG3e4auuq0Z",
+    src: "/gallery/ppf/2025-03-06_car_ppf_DG3e4auuq0Z_2.jpg",
+    alt: "White BMW in the bay beside the Dallas Tint Shop mural",
+    service: "Window Tint",
+    filter: "tint",
+  },
+];
+
+/* Reels are single-subject posts, so their own classification is reliable —
+   unlike the mixed carousel above, which needed per-photo assignment.
+   Anything that is not one of the three headline services files under
+   "detail" (shop-floor work, wheels, coatings). */
+const FILTER_OF: Record<string, WorkFilter> = {
+  tint: "tint",
+  ppf: "ppf",
+  wrap: "wrap",
+};
+
+const stillTiles: ShowcaseTile[] = STILLS.flatMap((t) => {
+  const post = IG_POSTS.find((p) => p.code === t.code);
+  if (!post) return [];
+  const { code, ...rest } = t;
+  return [{ ...rest, kind: "photo" as const, video: null, plays: null, url: post.url }];
+});
+
+const reelTiles: ShowcaseTile[] = IG_POSTS.filter((p) => p.video).map((p) => ({
+  key: p.code,
+  url: p.url,
+  kind: "reel" as const,
+  src: p.images[0],
+  video: p.video,
+  service: p.service,
+  filter: FILTER_OF[p.category] ?? "detail",
+  alt: p.alt,
+  plays: p.plays,
+}));
+
+/* Interleave so the grid alternates stills and video rather than showing
+   one block of each — the mix is the point. Most-watched reel leads. */
+export const SHOWCASE: ShowcaseTile[] = (() => {
+  const reels = [...reelTiles].sort((a, b) => (b.plays ?? 0) - (a.plays ?? 0));
+  const out: ShowcaseTile[] = [];
+  const max = Math.max(reels.length, stillTiles.length);
+  for (let i = 0; i < max; i++) {
+    if (reels[i]) out.push(reels[i]);
+    if (stillTiles[i]) out.push(stillTiles[i]);
+    if (stillTiles[i + max]) out.push(stillTiles[i + max]);
+  }
+  return out;
+})();
+
+export const WORK_FILTERS: { value: WorkFilter | "all"; label: string }[] = [
+  { value: "all", label: "All work" },
+  { value: "tint", label: "Tint" },
+  { value: "ppf", label: "PPF" },
+  { value: "wrap", label: "Wraps" },
+  { value: "detail", label: "Details" },
 ];
 
 export type Review = {
@@ -166,40 +302,51 @@ export type Review = {
   rating: number;
   body: string;
   source: "Google" | "Instagram" | "Yelp";
+  /** How Google displays the age of the review */
+  when: string;
 };
 
+/* Verbatim from the shop's Google Business Profile — Dallas Tint Shop,
+   630 S Central Expy #104, Richardson (5.0 from 138). Every one of these
+   was read off that listing; the four invented testimonials that used to
+   live here are gone.
+
+   ⚠️ Two rules if you add more:
+   1. VERIFY THE LISTING. "Dallas Window Tint" at 10825 Plano Rd is a
+      different company with its own 4.8/140 — their reviews are not ours.
+   2. Quote verbatim and keep the author's name as Google shows it.
+      Signed out, Google only serves three reviews; sign in to the shop's
+      account to pull the rest.
+
+   `car` is our own summary of what the reviewer described, not a Google
+   field — Google reviews have no vehicle attribute. */
 export const REVIEWS: Review[] = [
   {
-    name: "Marcus T.",
-    car: "2024 Tesla Model 3 Performance",
+    name: "Uli Mar",
+    car: "Lexus — window tint",
     rating: 5,
     body:
-      "Full front PPF + ceramic tint and these guys did not miss a single edge. Cleanest install I’ve seen in Dallas — and I shopped around.",
+      "This place is AMAZING! If I can give 100 stars I would! Curly is the best, will get you right and make sure you are well taken care of!! I came in needing tint for my Lexus and these guys took their time and paid attention to detail and got my car looking right!",
     source: "Google",
+    when: "5 months ago",
   },
   {
-    name: "Jordan R.",
-    car: "Hellcat Redeye Widebody",
+    name: "Trung Ha",
+    car: "Window tint + panoramic roof",
     rating: 5,
     body:
-      "Got my Hellcat wrapped satin black with red accents and the calipers powder coated. Looks like it rolled out of a SEMA booth.",
+      "The team took the time to understand exactly what I was looking for and recommended the best tint solution based on my specific needs instead of trying to upsell me. The workmanship is flawless, the installation is incredibly clean, and the heat reduction is immediately noticeable.",
     source: "Google",
+    when: "1 month ago",
   },
   {
-    name: "Priya K.",
-    car: "BMW M340i",
+    name: "Raul Camargo",
+    car: "2026 Honda Odyssey — nano ceramic",
     rating: 5,
     body:
-      "Booked the ceramic coating + 2-stage paint correction. Texas sun does not play. The gloss came back like new and water rolls right off.",
-    source: "Instagram",
-  },
-  {
-    name: "Devon S.",
-    car: "Cadillac CT5-V Blackwing",
-    rating: 5,
-    body:
-      "Best shop in Richardson. Transparent pricing, real talk on what my car needed, and the showroom is something else.",
+      "They installed nano ceramic tint on all the windows of my 2026 Odyssey Van, and the results came out amazing. The customer service was professional, the installation was very clean, and you can immediately feel the difference in heat rejection.",
     source: "Google",
+    when: "2 months ago",
   },
 ];
 
@@ -216,7 +363,9 @@ export const WHY_POINTS = [
   {
     n: "01",
     title: "Performance-grade materials",
-    body: "Only top-tier films and coatings — XPEL, SunTek, 3M, Avery, KPMF. No bargain-bin film, ever.",
+    // SunTek removed — not an authorized dealer.
+    // TODO: Confirm the remaining brands with the owner before launch.
+    body: "Only top-tier films and coatings — XPEL, 3M, Avery, KPMF. No bargain-bin film, ever.",
   },
   {
     n: "02",

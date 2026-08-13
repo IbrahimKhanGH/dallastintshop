@@ -5,12 +5,14 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { BUSINESS } from "@/lib/data";
 
+// Root-relative so the nav still works from /quote, where a bare "#work"
+// would resolve against the quote page and go nowhere.
 const NAV_LINKS = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
-  { label: "Why Us", href: "#why" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "Work", href: "/#work" },
+  { label: "Why Us", href: "/#why" },
+  { label: "Reviews", href: "/#reviews" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -56,13 +58,13 @@ export default function Navbar() {
           >
             {BUSINESS.phone}
           </a>
-          <a
-            href="#contact"
+          <Link
+            href="/quote"
             className="h-display group relative inline-flex items-center gap-2 overflow-hidden rounded-sm bg-red-grad px-5 py-2.5 text-sm uppercase tracking-widest text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
           >
             <span>Get a Quote</span>
             <span className="absolute inset-y-0 right-0 w-10 -skew-x-12 bg-white/15 opacity-0 transition-opacity group-hover:opacity-100" />
-          </a>
+          </Link>
         </div>
 
         <button
@@ -110,13 +112,13 @@ export default function Navbar() {
             >
               Call {BUSINESS.phone}
             </a>
-            <a
-              href="#contact"
+            <Link
+              href="/quote"
               onClick={() => setOpen(false)}
               className="h-display rounded-sm bg-red-grad py-3 text-center text-sm uppercase tracking-widest text-white shadow-redGlow"
             >
               Get a Quote
-            </a>
+            </Link>
           </div>
         </nav>
       </div>

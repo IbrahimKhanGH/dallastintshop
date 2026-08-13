@@ -1,12 +1,16 @@
+// Brand claims must match what the shop can actually back up.
+// SunTek removed — the shop is not an authorized dealer.
+// TODO: Confirm each of these with the owner before launch. Naming a
+// certification or dealer network they don't hold is the same exposure
+// SunTek was. Delete any they can't verify.
 const ITEMS = [
-  "XPEL Certified Installer",
-  "SunTek Authorized",
-  "3M Pro Network",
-  "Avery Dennison",
-  "KPMF Wraps",
-  "Gtechniq",
-  "Ceramic Pro",
-  "Modesta",
+  "XPEL Certified Installer", // TODO: confirm with owner
+  "3M Pro Network", // TODO: confirm with owner
+  "Avery Dennison", // TODO: confirm with owner
+  "KPMF Wraps", // TODO: confirm with owner
+  "Gtechniq", // TODO: confirm with owner
+  "Ceramic Pro", // TODO: confirm with owner
+  "Modesta", // TODO: confirm with owner
 ];
 
 export default function TrustStrip() {

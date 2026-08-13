@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import StructuredData from "@/components/StructuredData";
 import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -30,16 +31,23 @@ export const metadata: Metadata = {
     "paint correction Dallas",
     "powder coating Dallas",
   ],
-  metadataBase: new URL("https://dallastintshop.com"),
+  metadataBase: new URL("https://dallastint.shop"),
   openGraph: {
     title: "Dallas Tint Shop — Premium Tint, PPF & Wraps",
     description:
-      "Performance-focused tint, PPF, wraps, ceramic coating, and detailing trusted by Dallas car enthusiasts.",
-    url: "https://dallastintshop.com",
+      "Performance-focused tint, PPF, wraps, ceramic coating, and paint correction trusted by Dallas car enthusiasts.",
+    url: "https://dallastint.shop",
     siteName: "Dallas Tint Shop",
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dallas Tint Shop — Premium Tint, PPF & Wraps",
+    description:
+      "Ceramic tint, paint protection film and colour-change wraps in Richardson, TX. 5.0 from 138 Google reviews.",
+  },
+  alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {
@@ -57,6 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="bg-brand-black text-brand-off antialiased">
+        <StructuredData />
         {children}
       </body>
     </html>

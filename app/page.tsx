@@ -1,16 +1,16 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustStrip from "@/components/TrustStrip";
 import SectionHeader from "@/components/SectionHeader";
 import ServiceCard from "@/components/ServiceCard";
-import GalleryGrid from "@/components/GalleryGrid";
 import WhySection from "@/components/WhySection";
 import ReviewCard from "@/components/ReviewCard";
-import InstagramSection from "@/components/InstagramSection";
+import WorkShowcase from "@/components/WorkShowcase";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
-import { SERVICES, GALLERY, REVIEWS } from "@/lib/data";
+import { SERVICES, REVIEWS, BUSINESS } from "@/lib/data";
 
 export default function HomePage() {
   return (
@@ -40,12 +40,12 @@ export default function HomePage() {
               }
               description="From ceramic tint to full-color wraps, every service is dialed in for Dallas weather, Dallas roads, and Dallas car culture."
             />
-            <a
-              href="#contact"
+            <Link
+              href="/quote"
               className="h-display hidden rounded-sm border border-white/15 bg-white/[0.04] px-5 py-3 text-xs uppercase tracking-[0.25em] text-white transition-all hover:bg-white/10 sm:inline-flex"
             >
               Book a service →
-            </a>
+            </Link>
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -56,37 +56,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured work */}
-      <section
-        id="work"
-        className="relative border-t border-white/10 bg-brand-surface/40 py-20 sm:py-28"
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-            <SectionHeader
-              eyebrow="Featured work"
-              title={
-                <>
-                  Built in the
-                  <br />
-                  <span className="h-display-italic text-brand-red">studio.</span>
-                </>
-              }
-              description="Tesla, Hellcat, Blackwing, BMW M, AMG, exotics, and daily drivers — same standard, every install."
-            />
-            <a
-              href="#contact"
-              className="h-display hidden rounded-sm bg-red-grad px-5 py-3 text-xs uppercase tracking-[0.25em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 sm:inline-flex"
-            >
-              Start your build →
-            </a>
-          </div>
-
-          <div className="mt-12">
-            <GalleryGrid items={GALLERY} />
-          </div>
-        </div>
-      </section>
+      <WorkShowcase />
 
       <WhySection />
 
@@ -105,28 +75,28 @@ export default function HomePage() {
                 <span className="h-display-italic text-brand-red">real owners.</span>
               </>
             }
-            description="180+ five-star reviews across Google and Instagram from Dallas drivers who trust us with their cars."
+            description={`${BUSINESS.rating.toFixed(1)} stars from ${BUSINESS.reviewCount} Google reviews. These are real ones, word for word.`}
             align="center"
           />
 
-          <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {REVIEWS.map((r) => (
               <ReviewCard key={r.name} review={r} />
             ))}
           </div>
 
-          {/* TODO: Drop in real screenshots of Google review cards here */}
+          {/* Rating and count verified against the Google listing.
+              TODO(owner): confirm the XPEL certification claim below — it is
+              the last unverified badge on the page. */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-white/55">
-            <span className="h-display tracking-[0.3em] text-white/75">5.0 ★ GOOGLE</span>
+            <span className="h-display tracking-[0.3em] text-white/75">
+              {BUSINESS.rating.toFixed(1)} ★ GOOGLE
+            </span>
             <span className="h-1.5 w-1.5 rotate-45 bg-brand-red" />
             <span className="h-display tracking-[0.3em] text-white/75">XPEL CERTIFIED</span>
-            <span className="h-1.5 w-1.5 rotate-45 bg-brand-red" />
-            <span className="h-display tracking-[0.3em] text-white/75">SUNTEK PRO</span>
           </div>
         </div>
       </section>
-
-      <InstagramSection />
 
       <CTASection />
 
