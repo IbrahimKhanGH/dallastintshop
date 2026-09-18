@@ -1,8 +1,9 @@
 import { ImageResponse } from "next/og";
 
-/* Favicon, generated at build time rather than shipped as a binary — the
-   shop has no logo file yet, so this is the "DTS" mark from the navbar.
-   Swap for a real app/icon.png the moment they hand one over. */
+/* Favicon, generated at build time. The shop's logo is a wide wordmark
+   (about 4.3:1) that turns to mush at 16–32px, and cropping or redrawing it
+   into a square would alter the artwork — so the favicon stays a neutral
+   "DTS" tile until the shop supplies a square mark. */
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 

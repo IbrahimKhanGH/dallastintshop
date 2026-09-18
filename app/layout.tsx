@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import StructuredData from "@/components/StructuredData";
 import { Bebas_Neue, Inter } from "next/font/google";
+import { SITE_URL } from "@/lib/site";
+import { BUSINESS } from "@/lib/business";
 import "./globals.css";
 
 const display = Bebas_Neue({
@@ -16,38 +18,23 @@ const body = Inter({
   display: "swap",
 });
 
+/* Site-wide defaults only. Canonicals are set per page (lib/metadata.ts) —
+   a canonical here would be inherited by any page that forgot its own and
+   point it at the homepage. */
 export const metadata: Metadata = {
-  title: "Dallas Tint Shop — Premium Tint, PPF & Wraps in Richardson, TX",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${BUSINESS.name} | Window Tint, PPF & Wraps in Richardson, TX`,
+    template: `%s | ${BUSINESS.name}`,
+  },
   description:
-    "Dallas / Richardson's premium automotive studio for ceramic window tint, paint protection film, vinyl wraps, ceramic coatings, paint correction, and powder coating. Trusted by Dallas car enthusiasts.",
-  keywords: [
-    "Dallas tint shop",
-    "Richardson window tint",
-    "ceramic tint Dallas",
-    "PPF Dallas",
-    "paint protection film Richardson",
-    "car wraps Dallas",
-    "ceramic coating Dallas",
-    "paint correction Dallas",
-    "powder coating Dallas",
-  ],
-  metadataBase: new URL("https://dallastint.shop"),
-  openGraph: {
-    title: "Dallas Tint Shop — Premium Tint, PPF & Wraps",
-    description:
-      "Performance-focused tint, PPF, wraps, ceramic coating, and paint correction trusted by Dallas car enthusiasts.",
-    url: "https://dallastint.shop",
-    siteName: "Dallas Tint Shop",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Dallas Tint Shop — Premium Tint, PPF & Wraps",
-    description:
-      "Ceramic tint, paint protection film and colour-change wraps in Richardson, TX. 5.0 from 138 Google reviews.",
-  },
-  alternates: { canonical: "/" },
+    "Window tint, paint protection film, vinyl wraps, ceramic coating, powder coating and chrome delete in Richardson, TX, serving Dallas.",
+  applicationName: BUSINESS.name,
+  // Search Console HTML-tag verification. Set the token in Vercel when the
+  // property is created; absent, no tag is rendered.
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {
@@ -65,6 +52,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="bg-brand-black text-brand-off antialiased">
+        <a
+          href="#main"
+          className="sr-only z-[60] rounded-sm bg-white px-4 py-3 text-sm font-medium text-black focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        >
+          Skip to content
+        </a>
         <StructuredData />
         {children}
       </body>

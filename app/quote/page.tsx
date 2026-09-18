@@ -1,20 +1,21 @@
-import type { Metadata } from "next";
+import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import QuoteForm from "@/components/quote/QuoteForm";
+import QuoteForm, { QuoteFormFromUrl } from "@/components/quote/QuoteForm";
 import DallasSkyline from "@/components/DallasSkyline";
-import { BUSINESS } from "@/lib/data";
+import { BUSINESS } from "@/lib/business";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Get a Quote — Dallas Tint Shop",
+export const metadata = pageMetadata({
+  title: "Get a Quote",
   description:
-    "Four quick steps. Tell us what you drive and what you want done, and we'll come back with an honest estimate — usually the same day.",
-  alternates: { canonical: "/quote" },
-};
+    "Request a quote for window tint, PPF, vinyl wraps, ceramic coating, powder coating or chrome delete in Richardson, TX. Four quick steps.",
+  path: "/quote",
+});
 
 export default function QuotePage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-brand-black">
+    <main id="main" className="relative min-h-screen overflow-hidden bg-brand-black">
       <Navbar />
 
       {/* backdrop, dialed down from the homepage hero so the form stays
@@ -42,21 +43,27 @@ export default function QuotePage() {
             <span className="h-display-italic text-brand-red">quote.</span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-lg text-base text-white/65">
-            Four quick steps. Tell us what you drive and what you&apos;re after,
-            and we&apos;ll come back with an honest estimate — usually same day.
+          <p className="mx-auto mt-5 max-w-lg text-base text-white/75">
+            Four quick steps. Tell us what you&apos;re after and what you drive,
+            and we&apos;ll come back with an honest estimate.
           </p>
         </div>
 
         <div className="mt-10">
-          <QuoteForm />
+          {/* QuoteForm reads ?service= to preselect a service. The boundary
+              lets the page stay statically rendered; the fallback is the
+              same form with nothing preselected. */}
+          <Suspense fallback={<QuoteForm />}>
+            <QuoteFormFromUrl />
+          </Suspense>
         </div>
 
         {/* Some people won't fill out a form no matter how short it is. */}
-        <p className="mt-8 text-center text-sm text-white/45">
+        <p className="mt-8 text-center text-sm text-white/65">
           Rather just talk to someone?{" "}
           <a
             href={BUSINESS.phoneHref}
+            data-track="call"
             className="text-white underline decoration-brand-red underline-offset-4 transition-colors hover:text-brand-red"
           >
             Call {BUSINESS.phone}

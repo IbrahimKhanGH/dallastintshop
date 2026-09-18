@@ -25,6 +25,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# compiled unit tests
+.test-build/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

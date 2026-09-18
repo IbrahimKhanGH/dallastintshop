@@ -131,3 +131,31 @@ body {
   transform: skewX(-6deg);
   display: inline-block;
 }
+
+/* Keyboard focus: one visible ring everywhere. Mouse clicks don't show it
+   (:focus-visible), keyboard and switch users always do. */
+:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(193, 18, 31, 0.85);
+  border-radius: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Respect "reduce motion": no smooth scrolling, pulsing, hover zooms or
+   autoplay-style movement. The lead reel checks this in JS too. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

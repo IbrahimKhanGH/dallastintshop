@@ -36,7 +36,6 @@ const config: Config = {
       animation: {
         "led-pulse": "ledPulse 3.5s ease-in-out infinite",
         "scan": "scan 6s linear infinite",
-        "marquee": "marquee 40s linear infinite",
       },
       keyframes: {
         ledPulse: {
@@ -46,10 +45,6 @@ const config: Config = {
         scan: {
           "0%": { transform: "translateY(-100%)" },
           "100%": { transform: "translateY(100%)" },
-        },
-        marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
         },
       },
     },

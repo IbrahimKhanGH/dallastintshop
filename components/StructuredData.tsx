@@ -1,82 +1,66 @@
-import { BUSINESS, SERVICES } from "@/lib/data";
-import { SITE_URL } from "@/lib/site";
+import { BUSINESS } from "@/lib/business";
+import { SERVICES, servicePath } from "@/lib/services";
+import { BUSINESS_SCHEMA_ID, SITE_URL, absoluteUrl } from "@/lib/site";
 
-/* Schema.org LocalBusiness data.
+/* Schema.org business data, rendered on every page.
 
-   This is what lets Google show the hours, rating and phone number directly
-   in results, and it is also how ChatGPT/Perplexity answer "who does
-   ceramic tint near Richardson" — those assistants read structured data far
-   more reliably than they read marketing prose.
+   Built entirely from lib/business.ts and lib/services.ts, so it can't
+   drift from what the page shows.
 
-   Every value here is verified: address, phone and hours come from the
-   shop's own Instagram captions, the rating and review count from their
-   Google Business Profile, the coordinates from that listing's map pin.
-   Do not put an aggregateRating here that the page does not also display —
-   Google treats that as spam, and the reviews section shows both numbers. */
+   Deliberately absent:
+   - aggregateRating / review. A business marking up its own rating on its
+     own site is "self-serving" review markup; Google does not show stars
+     for it and it adds risk for no gain. The rating lives on Google.
+   - Facebook in sameAs, until the page is confirmed as the shop's.
+
+   Type is AutomotiveBusiness — the general type. The old AutoDetailing
+   type described one narrow service rather than what the shop is. */
 export default function StructuredData() {
+  const { address, geo, google, social } = BUSINESS;
   const data = {
     "@context": "https://schema.org",
-    "@type": "AutoDetailing",
-    "@id": `${SITE_URL}/#business`,
+    "@type": "AutomotiveBusiness",
+    "@id": BUSINESS_SCHEMA_ID,
     name: BUSINESS.name,
     url: SITE_URL,
+    logo: absoluteUrl(BUSINESS.logo.src),
+    image: absoluteUrl("/gallery/ppf/2025-03-06_car_ppf_DG3e4auuq0Z_1.jpg"),
     telephone: BUSINESS.phone,
-    priceRange: "$$",
-    image: `${SITE_URL}/gallery/ppf/2025-03-06_car_ppf_DG3e4auuq0Z_1.jpg`,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "630 South Central Expressway, Suite 104",
-      addressLocality: "Richardson",
-      addressRegion: "TX",
-      postalCode: "75080",
-      addressCountry: "US",
+      streetAddress: `${address.street}, ${address.suite}`,
+      addressLocality: address.city,
+      addressRegion: address.region,
+      postalCode: address.postalCode,
+      addressCountry: address.country,
     },
-    geo: { "@type": "GeoCoordinates", latitude: 32.9445245, longitude: -96.7411731 },
-    openingHoursSpecification: [
-      {
+    geo: { "@type": "GeoCoordinates", ...geo },
+    hasMap: google.mapsUrl,
+    openingHoursSpecification: BUSINESS.hours
+      .filter((h) => h.opens && h.closes)
+      .map((h) => ({
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ],
-        opens: "10:00",
-        closes: "19:00",
-      },
-    ],
-    sameAs: [BUSINESS.instagram],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: BUSINESS.rating,
-      reviewCount: BUSINESS.reviewCount,
-      bestRating: 5,
-    },
-    areaServed: [
-      "Richardson, TX",
-      "Dallas, TX",
-      "Plano, TX",
-      "Garland, TX",
-      "Addison, TX",
-      "Allen, TX",
-    ].map((name) => ({ "@type": "City", name })),
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "Automotive protection & restyling",
-      itemListElement: SERVICES.map((s) => ({
-        "@type": "Offer",
-        itemOffered: { "@type": "Service", name: s.title, description: s.short },
+        dayOfWeek: h.days,
+        opens: h.opens,
+        closes: h.closes,
       })),
-    },
+    sameAs: [social.instagram, social.tiktok],
+    areaServed: ["Richardson, TX", "Dallas, TX"].map((name) => ({ "@type": "City", name })),
+    makesOffer: SERVICES.map((s) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: s.name,
+        description: s.summary,
+        url: absoluteUrl(servicePath(s.slug)),
+      },
+    })),
   };
 
   return (
     <script
       type="application/ld+json"
-      // Schema data is a static object we build ourselves — no user input
-      // reaches it, so there is nothing here to escape.
+      // Static object built from our own constants — no user input reaches it.
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );

@@ -1,15 +1,17 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { BUSINESS } from "@/lib/data";
+import { BUSINESS, CERTIFICATION } from "@/lib/business";
 
 /* The card that renders whenever someone shares the site — in a text, a
    Facebook group, a DM. Without it those links render as a blank grey box,
    which for a business that gets found by word of mouth is a real cost.
 
    Built over the shop's own hero photo rather than a flat colour, so the
-   preview shows a car. */
-export const alt = "Dallas Tint Shop — premium tint, PPF and wraps in Richardson, TX";
+   preview shows a car, with the shop's real logo artwork on top. No rating
+   or review count: this image is cached by every platform it's shared to,
+   so any number baked in here would go stale. */
+export const alt = "Dallas Tint Shop — window tint, PPF, wraps and chrome delete in Richardson, TX";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -18,6 +20,12 @@ export default async function OpengraphImage() {
     join(process.cwd(), "public/gallery/ppf/2025-03-06_car_ppf_DG3e4auuq0Z_1.jpg"),
   );
   const src = `data:image/jpeg;base64,${photo.toString("base64")}`;
+  // src is a web path ("/brand/…"); path.join would treat a leading slash
+  // as an absolute path and drop `public/`.
+  const logo = await readFile(join(process.cwd(), "public", BUSINESS.logo.darkSrc.replace(/^\//, "")));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+  const logoH = 140;
+  const logoW = Math.round((BUSINESS.logo.width / BUSINESS.logo.height) * logoH);
 
   return new ImageResponse(
     (
@@ -56,11 +64,21 @@ export default async function OpengraphImage() {
             width: 760,
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoSrc}
+            alt=""
+            width={logoW}
+            height={logoH}
+            // Dark-background version of the artwork (components/Logo.tsx);
+            // the negative margin absorbs its built-in side margin.
+            style={{ marginLeft: -Math.round(logoW * 0.11), marginBottom: 12 }}
+          />
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              color: "#C1121F",
+              color: "#ff3b47",
               fontSize: 22,
               fontWeight: 700,
               letterSpacing: 6,
@@ -73,19 +91,19 @@ export default async function OpengraphImage() {
             style={{
               marginTop: 18,
               color: "#fff",
-              fontSize: 78,
+              fontSize: 64,
               fontWeight: 900,
               lineHeight: 1.02,
               letterSpacing: -2,
               fontFamily: "sans-serif",
             }}
           >
-            Premium tint, PPF
+            Tint, PPF, wraps
           </div>
           <div
             style={{
               color: "#C1121F",
-              fontSize: 78,
+              fontSize: 64,
               fontWeight: 900,
               lineHeight: 1.02,
               letterSpacing: -2,
@@ -93,7 +111,7 @@ export default async function OpengraphImage() {
               fontFamily: "sans-serif",
             }}
           >
-            &amp; wraps.
+            &amp; chrome delete.
           </div>
           <div
             style={{
@@ -104,7 +122,7 @@ export default async function OpengraphImage() {
               fontFamily: "sans-serif",
             }}
           >
-            {`${BUSINESS.rating.toFixed(1)}/5 from ${BUSINESS.reviewCount} Google reviews  ·  ${BUSINESS.phone}`}
+            {`${CERTIFICATION}  ·  ${BUSINESS.phone}`}
           </div>
         </div>
       </div>

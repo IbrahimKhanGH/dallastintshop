@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BUSINESS } from "@/lib/data";
+import { BUSINESS } from "@/lib/business";
 
 export default function MobileStickyCTA() {
   return (
@@ -17,6 +17,7 @@ export default function MobileStickyCTA() {
         <div className="grid grid-cols-3 gap-2">
           <a
             href={BUSINESS.phoneHref}
+            data-track="call"
             className="flex h-12 items-center justify-center gap-2 rounded-sm border border-white/15 bg-white/[0.04] text-sm font-medium text-white"
           >
             <svg
@@ -35,9 +36,10 @@ export default function MobileStickyCTA() {
             Call
           </a>
           <a
-            href={BUSINESS.mapsHref}
+            href={BUSINESS.google.directionsUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            data-track="directions"
             className="flex h-12 items-center justify-center gap-2 rounded-sm border border-white/15 bg-white/[0.04] text-sm font-medium text-white"
           >
             <svg
@@ -64,6 +66,7 @@ export default function MobileStickyCTA() {
           </a>
           <Link
             href="/quote"
+            data-track="quote_start"
             className="h-display flex h-12 items-center justify-center rounded-sm bg-red-grad text-xs uppercase tracking-[0.2em] text-white shadow-redGlow"
           >
             Get Quote

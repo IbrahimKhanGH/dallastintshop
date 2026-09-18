@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
-import { BUSINESS } from "@/lib/data";
+import { BUSINESS } from "@/lib/business";
+import { SocialLinks } from "./SocialLinks";
 
 // Root-relative so the nav still works from /quote, where a bare "#work"
 // would resolve against the quote page and go nowhere.
 const NAV_LINKS = [
   { label: "Services", href: "/#services" },
   { label: "Work", href: "/#work" },
-  { label: "Why Us", href: "/#why" },
   { label: "Reviews", href: "/#reviews" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -30,13 +30,16 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/10 bg-black/80 backdrop-blur-xl"
-          : "border-b border-transparent bg-gradient-to-b from-black/70 to-transparent"
+          ? "border-b border-white/10 bg-[#0c0c0c]/95 backdrop-blur-md"
+          : "border-b border-transparent bg-gradient-to-b from-black/80 to-transparent"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
-        <Link href="/" className="group flex items-center gap-2">
-          <Logo />
+        {/* Negative margin absorbs the artwork's built-in side margin so the
+            lettering lines up with the page content. */}
+        <Link href="/" aria-label="Dallas Tint Shop — home" className="-ml-5 flex min-w-0 items-center sm:-ml-6">
+          <Logo height={44} priority className="sm:hidden" />
+          <Logo height={56} priority className="hidden sm:block" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
@@ -54,24 +57,26 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             href={BUSINESS.phoneHref}
+            data-track="call"
             className="h-display text-sm uppercase tracking-widest text-white/80 transition-colors hover:text-white"
           >
             {BUSINESS.phone}
           </a>
           <Link
             href="/quote"
-            className="h-display group relative inline-flex items-center gap-2 overflow-hidden rounded-sm bg-red-grad px-5 py-2.5 text-sm uppercase tracking-widest text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
+            data-track="quote_start"
+            className="h-display inline-flex items-center gap-2 rounded-sm bg-red-grad px-5 py-2.5 text-sm uppercase tracking-widest text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
           >
-            <span>Get a Quote</span>
-            <span className="absolute inset-y-0 right-0 w-10 -skew-x-12 bg-white/15 opacity-0 transition-opacity group-hover:opacity-100" />
+            Get a Quote
           </Link>
         </div>
 
         <button
-          aria-label="Toggle menu"
+          aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((o) => !o)}
-          className="grid h-10 w-10 place-items-center rounded-sm border border-white/10 bg-white/[0.04] lg:hidden"
+          className="grid h-11 w-11 place-items-center rounded-sm border border-white/10 bg-white/[0.04] lg:hidden"
         >
           <span className="relative block h-3 w-5">
             <span
@@ -90,6 +95,8 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <div
+        id="mobile-menu"
+        hidden={!open}
         className={`overflow-hidden border-t border-white/5 bg-black/95 backdrop-blur-xl transition-[max-height] duration-300 lg:hidden ${
           open ? "max-h-[80vh]" : "max-h-0"
         }`}
@@ -108,6 +115,7 @@ export default function Navbar() {
           <div className="mt-4 flex flex-col gap-2">
             <a
               href={BUSINESS.phoneHref}
+              data-track="call"
               className="h-display rounded-sm border border-white/15 bg-white/[0.04] py-3 text-center text-sm uppercase tracking-widest text-white"
             >
               Call {BUSINESS.phone}
@@ -120,6 +128,7 @@ export default function Navbar() {
               Get a Quote
             </Link>
           </div>
+          <SocialLinks className="mt-5 justify-center" />
         </nav>
       </div>
     </header>

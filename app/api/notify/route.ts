@@ -13,22 +13,19 @@
      TEXTBELT_KEY  — API key from https://textbelt.com/purchase
      NOTIFY_PHONE  — destination number, digits only (e.g. 4695551234)
 
-   Textbelt bills one credit per 160-character segment. This shop is
-   SMS-only — there is no email carrying the full details — so the cap is
-   four segments rather than two. Worst case that is ~6c per lead against a
-   job worth hundreds; losing the customer's own description of the work to
-   save 4c is a bad trade. Typical leads still come in at 1-2 segments.
+   Message assembly lives in lib/sms.ts (unit-tested in tests/); this file
+   is transport and abuse guards.
 
    Tip: append "_test" to TEXTBELT_KEY to validate the key without
    spending a credit — the API returns success without sending.
    ============================================================ */
 
+import { SHOP_NAME, buildSms, clean, quoteValidationError, type QuoteBody } from "@/lib/sms";
+
 // POST handlers are dynamic by default, but be explicit: this must never
 // be statically evaluated at build time.
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-const MAX_SMS_CHARS = 640; // 4 segments, ~6c worst case
 
 // Credits run out silently: Textbelt just starts returning "Out of quota"
 // and the shop stops hearing about quote requests. Warn the owner on the
@@ -42,103 +39,6 @@ const MAX_SMS_CHARS = 640; // 4 segments, ~6c worst case
 // 50 gives roughly two weeks' notice at a few quotes a day; the rest are
 // escalating reminders. Five warnings over the life of a 700-credit bundle.
 const QUOTA_WARN_AT = [50, 25, 10, 5, 3];
-
-// The shop name Textbelt reports as the sender, and the prefix on the text
-// itself. Kept in sync with BUSINESS.name in lib/data.ts.
-const SHOP_NAME = "Dallas Tint Shop";
-
-/* A single non-GSM-7 character (em dash, smart quote) flips the whole
-   message to UCS-2 encoding, which drops the segment size from 160
-   characters to 70 and doubles the credit cost. The form's own summary
-   joins with " — ", so normalise to plain ASCII before sending. */
-const ASCII_SWAPS: [RegExp, string][] = [
-  [/[‐-―]/g, "-"], // hyphens, en/em dashes
-  [/[‘’‛]/g, "'"],
-  [/[“”‟]/g, '"'],
-  [/…/g, "..."],
-  [/[   ]/g, " "],
-  [/•/g, "*"],
-  [/°/g, " deg"],
-];
-
-/* Textbelt refuses to deliver any message containing a URL unless the key
-   is whitelisted, and it reads an email address as one. That turns an
-   ordinary lead — someone who picked "Email me", or typed a website in the
-   notes — into a hard delivery failure, which is the one outcome this whole
-   route exists to prevent. So defang anything link-shaped before sending:
-   the shop can still read it, and the message goes through.
-
-   Getting the key verified at textbelt.com/whitelist removes the
-   restriction; this stays either way as the belt-and-braces. */
-function neutralizeLinks(text: string): string {
-  return text
-    .replace(/https?:\/\//gi, "")
-    .replace(/\bwww\./gi, "www ")
-    .replace(/@/g, " at ")
-    // only a dot glued to letters is domain-shaped; "3.5" and "Thanks. Ok"
-    // are both left alone
-    .replace(/\b([\w-]+)\.([a-z]{2,})\b/gi, "$1 dot $2");
-}
-
-function clean(value: unknown, max?: number): string {
-  if (typeof value !== "string") return "";
-  let out = value;
-  for (const [pattern, replacement] of ASCII_SWAPS) {
-    out = out.replace(pattern, replacement);
-  }
-  // Anything still outside plain ASCII would cost double; drop it.
-  out = out
-    .replace(/[^\x20-\x7E]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  return max && out.length > max ? out.slice(0, max) : out;
-}
-
-type QuoteBody = {
-  name?: string;
-  phone?: string;
-  email?: string;
-  vehicle?: string;
-  body_style?: string;
-  service?: string;
-  preferred_contact?: string;
-  botcheck?: string;
-  elapsed_ms?: number | string;
-};
-
-function buildSms(body: QuoteBody): string {
-  const name = clean(body.name, 40) || "Someone";
-  const phone = clean(body.phone, 20);
-  const vehicle = clean(body.vehicle, 40);
-  const style = clean(body.body_style, 20);
-  /* `service` arrives as "Ceramic Tint, PPF - <customer's own notes>", so
-     this is the field that carries what they actually asked for. The form
-     bounds the notes box at 300 characters, and 400 here leaves room for
-     that plus every service chip. */
-  const service = clean(body.service, 400);
-  // Must be included: the form lets a customer choose "Email me" and then
-  // requires their address, and the confirmation screen promises a reply by
-  // email. Leaving it out of the only channel the shop reads would hand
-  // them a lead they are unable to answer.
-  const email = clean(body.email, 60);
-  const pref = clean(body.preferred_contact, 20);
-
-  const parts = [`${SHOP_NAME} - new quote`, name];
-  if (phone) parts.push(phone);
-  if (email && email !== "(not provided)") parts.push(email);
-  // Vehicle and body style read as one unit: "2021 Toyota Camry (Sedan)"
-  if (vehicle) parts.push(style ? `${vehicle} (${style})` : vehicle);
-  else if (style) parts.push(style);
-  if (service) parts.push(service);
-  if (pref) parts.push(`Prefers: ${pref}`);
-
-  /* Ordering matters on overflow: name, phone and vehicle come first so a
-     trim only ever eats the tail of the notes, never the way to call them
-     back. */
-  let msg = neutralizeLinks(parts.join(" | "));
-  if (msg.length > MAX_SMS_CHARS) msg = msg.slice(0, MAX_SMS_CHARS - 3) + "...";
-  return msg;
-}
 
 type TextbeltResult = {
   success?: boolean;
@@ -340,6 +240,12 @@ export async function POST(req: Request): Promise<Response> {
   if (reason) {
     console.warn(`notify: blocked (${reason}) ip:`, clientIp(req));
     return Response.json({ ok: true, skipped: reason });
+  }
+
+  const invalid = quoteValidationError(body);
+  if (invalid) {
+    console.warn(`notify: invalid payload (${invalid})`);
+    return Response.json({ ok: false, error: "Invalid request" }, { status: 400 });
   }
 
   if (isDuplicate(body)) {

@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import DallasSkyline from "./DallasSkyline";
-import { BUSINESS } from "@/lib/data";
+import { BUSINESS } from "@/lib/business";
 
 // Mirrors the steps in components/quote/QuoteForm.tsx. Showing the shape of
 // the flow up front is what makes it feel short enough to start.
 const QUOTE_PREVIEW = [
+  { label: "What you need", hint: "Tint, PPF, wrap, chrome delete…" },
   { label: "Your vehicle", hint: "Year, make, model" },
-  { label: "Body style", hint: "Sedan, coupe, SUV, truck" },
-  { label: "What you need", hint: "Tap what applies" },
+  { label: "The details", hint: "Only what matters for your service" },
   { label: "How to reach you", hint: "Text, call, or email" },
 ];
 
@@ -18,7 +18,7 @@ export default function CTASection() {
       id="contact"
       className="relative isolate overflow-hidden border-y border-white/10 bg-brand-black"
     >
-      {/* Background image — TODO: replace with shop interior photo */}
+      {/* Background: the shop's own bay, from their Instagram */}
       <div className="absolute inset-0 -z-10">
         <Image
           src="/gallery/ppf/2025-02-19_car_ppf_DGRSZKAOQGo_6.jpg"
@@ -47,14 +47,15 @@ export default function CTASection() {
             <br /> your car?
           </h2>
 
-          <p className="mt-5 max-w-xl text-base text-white/70 sm:text-lg">
-            Tell us about your vehicle and what you want done. We&apos;ll send
-            you a transparent quote — usually same day.
+          <p className="mt-5 max-w-xl text-base text-white/75 sm:text-lg">
+            Tell us what you drive and what you want done, and we&apos;ll come
+            back with a quote.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={BUSINESS.phoneHref}
+              data-track="call"
               className="h-display group inline-flex items-center gap-3 rounded-sm bg-red-grad px-6 py-4 text-sm uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg sm:text-base"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -67,9 +68,10 @@ export default function CTASection() {
               Call {BUSINESS.phone}
             </a>
             <a
-              href={BUSINESS.mapsHref}
+              href={BUSINESS.google.directionsUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              data-track="directions"
               className="h-display inline-flex items-center gap-3 rounded-sm border border-white/20 bg-white/[0.04] px-6 py-4 text-sm uppercase tracking-[0.2em] text-white backdrop-blur transition-all hover:bg-white/10 sm:text-base"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -87,11 +89,11 @@ export default function CTASection() {
           {/* Hours */}
           <div className="mt-10 grid max-w-md grid-cols-2 gap-x-6 gap-y-3 border-t border-white/10 pt-6">
             {BUSINESS.hours.map((h) => (
-              <div key={h.day} className="flex items-center justify-between text-sm">
-                <span className="h-display uppercase tracking-widest text-white/60">
-                  {h.day}
+              <div key={h.label} className="col-span-2 flex items-center justify-between text-sm sm:col-span-1 sm:block">
+                <span className="h-display block uppercase tracking-widest text-white/70">
+                  {h.label}
                 </span>
-                <span className="text-white/90">{h.hours}</span>
+                <span className="text-white/90">{h.value}</span>
               </div>
             ))}
           </div>
@@ -106,14 +108,14 @@ export default function CTASection() {
             <h3 className="h-display text-2xl uppercase tracking-wide text-white">
               Quick Quote
             </h3>
-            <span className="h-display rounded-sm bg-brand-red/15 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-brand-red">
-              Same-day reply
+            <span className="h-display rounded-sm bg-brand-red/20 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-white">
+              4 steps
             </span>
           </div>
 
-          <p className="text-sm text-white/65">
-            Four quick steps — about thirty seconds. No account, no pressure,
-            and a real person reads every one.
+          <p className="text-sm text-white/70">
+            About a minute. No account, no pressure, and a real person reads
+            every one.
           </p>
 
           <ol className="mt-6 space-y-3">
@@ -126,7 +128,7 @@ export default function CTASection() {
                   <div className="h-display text-sm uppercase tracking-widest text-white">
                     {s.label}
                   </div>
-                  <div className="text-xs text-white/45">{s.hint}</div>
+                  <div className="text-xs text-white/60">{s.hint}</div>
                 </div>
               </li>
             ))}
@@ -134,6 +136,7 @@ export default function CTASection() {
 
           <Link
             href="/quote"
+            data-track="quote_start"
             className="h-display group relative mt-7 flex w-full items-center justify-center gap-2 overflow-hidden rounded-sm bg-red-grad px-6 py-4 text-sm uppercase tracking-[0.25em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
           >
             Start your quote
@@ -143,7 +146,7 @@ export default function CTASection() {
             <span className="absolute inset-y-0 right-0 w-14 -skew-x-12 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           </Link>
 
-          <p className="mt-3 text-center text-[11px] text-white/40">
+          <p className="mt-3 text-center text-xs text-white/60">
             We&apos;ll text or call back within business hours.
           </p>
         </div>

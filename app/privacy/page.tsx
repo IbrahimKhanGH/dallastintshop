@@ -1,20 +1,19 @@
-import type { Metadata } from "next";
 import { LegalPage, CONTACT_LINE } from "@/lib/legal";
-import { BUSINESS } from "@/lib/data";
+import { BUSINESS } from "@/lib/business";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy — Dallas Tint Shop",
-  description:
-    "What Dallas Tint Shop collects when you request a quote, and what we do with it.",
-  alternates: { canonical: "/privacy" },
-};
+export const metadata = pageMetadata({
+  title: "Privacy Policy",
+  description: "What Dallas Tint Shop collects when you request a quote, and what we do with it.",
+  path: "/privacy",
+});
 
 /* Written to match what the site actually does. If the quote form changes
    channels — an email archive, a CRM, analytics — this page has to change
    with it, or it stops being true. */
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" updated="August 2026">
+    <LegalPage title="Privacy Policy" updated="September 2026">
       <p>
         {BUSINESS.name} runs a single form on this site: the quote request. This
         page explains what that form collects and where it goes. We do not sell
@@ -24,8 +23,10 @@ export default function PrivacyPage() {
       <h2>What we collect</h2>
       <p>
         Only what you type into the quote form: your name, phone number, an
-        optional email address, your vehicle and body style, the services
-        you&apos;re interested in, and any notes you add. Nothing else — we do
+        optional email address, your vehicle, the services you&apos;re
+        interested in, your answers to the follow-up questions for those
+        services (such as body style or which areas you want covered), and any
+        notes you add. Nothing else — we do
         not ask for payment details, and we have no account system.
       </p>
 
@@ -47,14 +48,17 @@ export default function PrivacyPage() {
       <h2>Cookies and tracking</h2>
       <p>
         This site sets no advertising or analytics cookies and does not track you
-        across other websites.
+        across other websites. If you choose to load our TikTok feed, TikTok may
+        set its own cookies; nothing from TikTok loads until you ask for it.
       </p>
 
       <h2>Third parties</h2>
       <p>
-        The site is hosted on Vercel, quote texts are delivered by Textbelt, and
-        photos and reels on this site link out to Instagram. Each of those
-        companies has its own privacy policy governing what it handles.
+        The site is hosted on Vercel and quote texts are delivered by Textbelt.
+        Photos and reels link out to Instagram, and our TikTok feed loads from
+        TikTok only when you ask for it. Reviews, reviewer photos, maps and
+        directions come from Google. Each of those companies has its own privacy
+        policy governing what it handles.
       </p>
 
       <h2>Your choices</h2>

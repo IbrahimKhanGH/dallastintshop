@@ -1,32 +1,39 @@
+import Image from "next/image";
+import { BUSINESS } from "@/lib/business";
+
 type LogoProps = {
   className?: string;
-  withWordmark?: boolean;
+  /** Rendered height of the artwork in px; width follows the native ratio */
+  height?: number;
+  priority?: boolean;
 };
 
 /**
- * Wordmark logo.
- * TODO: Swap this for the real Dallas Tint Shop logo SVG/PNG (the
- * black-background "DALLAS" (white) + "TINT SHOP" (red) racing-style mark).
- * Place the asset at /public/logo.svg and replace this component's body
- * with <Image src="/logo.svg" ... />.
+ * The shop's real logo artwork, shown at its native aspect ratio — never
+ * redrawn, recoloured or approximated with a font.
+ *
+ * The original PNG has transparent letter fills and is built to sit on
+ * white; on this site's black surfaces "DALLAS" would vanish. So dark
+ * surfaces use the dark-background version: the same artwork with only
+ * its enclosed letter fills set to white (scripts/brand/make-dark-logo.py).
+ * No plate or box behind it.
+ *
+ * The artwork carries transparent margin (about 11% each side); callers
+ * pull it in with a negative margin so the lettering lines up with content.
  */
-export default function Logo({ className = "", withWordmark = true }: LogoProps) {
+export default function Logo({ className = "", height = 44, priority = false }: LogoProps) {
+  const { darkSrc: src, width: w, height: h, alt } = BUSINESS.logo;
+  const width = Math.round((w / h) * height);
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <div className="relative grid h-9 w-9 place-items-center rounded-sm bg-black ring-1 ring-white/10">
-        <span className="h-display text-[10px] italic text-white">DTS</span>
-        <span className="absolute -bottom-[3px] left-1 right-1 h-[2px] bg-brand-red" />
-      </div>
-      {withWordmark && (
-        <div className="leading-none">
-          <div className="h-display h-display-italic text-base tracking-wider text-white">
-            DALLAS
-          </div>
-          <div className="h-display h-display-italic -mt-0.5 text-base tracking-wider text-brand-red">
-            TINT SHOP
-          </div>
-        </div>
-      )}
-    </div>
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      priority={priority}
+      sizes={`${width}px`}
+      className={`h-auto max-w-full select-none ${className}`}
+      style={{ width }}
+    />
   );
 }

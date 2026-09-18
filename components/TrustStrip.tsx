@@ -1,39 +1,42 @@
-// Brand claims must match what the shop can actually back up.
-// SunTek removed — the shop is not an authorized dealer.
-// TODO: Confirm each of these with the owner before launch. Naming a
-// certification or dealer network they don't hold is the same exposure
-// SunTek was. Delete any they can't verify.
+import { CERTIFICATION, WARRANTY } from "@/lib/business";
+
+/* Static credibility row. Replaces the scrolling brand marquee, which
+   listed dealer networks and product brands the shop never confirmed
+   (the previous list is in git history).
+
+   Only add a brand here once the owner confirms the relationship in
+   writing — naming a certification a shop doesn't hold is a liability for
+   them, not decoration. */
+// The warranty footnote sits directly above this strip, under the hero card.
 const ITEMS = [
-  "XPEL Certified Installer", // TODO: confirm with owner
-  "3M Pro Network", // TODO: confirm with owner
-  "Avery Dennison", // TODO: confirm with owner
-  "KPMF Wraps", // TODO: confirm with owner
-  "Gtechniq", // TODO: confirm with owner
-  "Ceramic Pro", // TODO: confirm with owner
-  "Modesta", // TODO: confirm with owner
+  CERTIFICATION,
+  WARRANTY.label,
+  "Tint · PPF · Wraps",
+  "Coating · Powder · Chrome Delete",
+  "Richardson / Dallas, TX",
 ];
 
 export default function TrustStrip() {
-  // Duplicate for a seamless marquee
-  const loop = [...ITEMS, ...ITEMS];
-
   return (
     <section
-      aria-label="Trusted brands"
-      className="relative overflow-hidden border-y border-white/10 bg-brand-surface/60 py-6"
+      aria-label="Why customers trust us"
+      className="relative border-y border-white/10 bg-brand-surface/70"
     >
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-brand-black to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-brand-black to-transparent" />
-
-      <div className="flex w-[200%] animate-marquee items-center gap-12 whitespace-nowrap">
-        {loop.map((label, i) => (
-          <div key={i} className="flex items-center gap-12 text-white/50">
-            <span className="h-display text-base uppercase tracking-[0.3em] sm:text-lg">
-              {label}
-            </span>
-            <span className="h-1.5 w-1.5 rotate-45 bg-brand-red/80" />
-          </div>
-        ))}
+      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+          {ITEMS.map((label, i) => (
+            <li key={label} className="flex items-center gap-6">
+              {i > 0 && <span aria-hidden className="hidden h-1.5 w-1.5 rotate-45 bg-brand-red sm:block" />}
+              <span
+                className={`h-display text-base uppercase tracking-[0.2em] sm:text-lg ${
+                  i < 2 ? "text-white" : "text-white/70"
+                }`}
+              >
+                {label}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -3,17 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import SectionHeader from "./SectionHeader";
-import { BUSINESS, SHOWCASE, WORK_FILTERS, type WorkFilter } from "@/lib/data";
+import { SHOWCASE, WORK_FILTERS, type WorkFilter } from "@/lib/data";
+import { BUSINESS } from "@/lib/business";
 import { IG_POSTS } from "@/lib/gallery";
-
-const compact = (n: number) =>
-  n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}K` : String(n);
+import TikTokEmbed from "./TikTokEmbed";
+import { InstagramIcon, TikTokIcon } from "./SocialLinks";
 
 /* One section for everything the shop has shot: stills from their photo
-   carousels and their most-watched reels, in a single filterable grid that
-   links every tile back to the original post. Replaces the old trio of
-   Featured Work / Featured Reels / Instagram strip, which were three views
-   of one account stacked in a row. */
+   posts and their most-watched reels, in a single filterable grid that
+   links every tile back to the original Instagram post, plus the shop's
+   TikTok feed on request. */
 export default function WorkShowcase() {
   const [filter, setFilter] = useState<WorkFilter | "all">("all");
   const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
@@ -71,31 +70,33 @@ export default function WorkShowcase() {
                 <span className="h-display-italic text-brand-red">shop floor.</span>
               </>
             }
-            description="Every car on this page came through the bay in Richardson. Tap any tile to see the original post."
+            description="Every car on this page came through the bay in Richardson. Tap any tile to see the original post on Instagram."
           />
-          <a
-            href={BUSINESS.instagram}
-            target="_blank"
-            rel="noreferrer"
-            className="h-display group hidden shrink-0 items-center gap-3 rounded-sm border border-white/20 bg-white/[0.04] px-5 py-3 text-xs uppercase tracking-[0.25em] text-white transition-all hover:bg-white/10 sm:inline-flex"
-          >
-            {BUSINESS.instagramHandle}
-            <span className="grid h-6 w-6 place-items-center rounded-sm bg-brand-red/20 text-brand-red transition-all group-hover:bg-brand-red group-hover:text-white">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path
-                  d="M7 17L17 7M9 7h8v8"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="square"
-                />
-              </svg>
-            </span>
-          </a>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <a
+              href={BUSINESS.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="instagram"
+              className="h-display inline-flex min-h-11 items-center gap-2 rounded-sm border border-white/20 bg-white/[0.04] px-4 text-xs uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10"
+            >
+              <InstagramIcon size={16} /> Instagram
+            </a>
+            <a
+              href={BUSINESS.social.tiktok}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="tiktok"
+              className="h-display inline-flex min-h-11 items-center gap-2 rounded-sm border border-white/20 bg-white/[0.04] px-4 text-xs uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10"
+            >
+              <TikTokIcon size={16} /> TikTok
+            </a>
+          </div>
         </div>
 
         {/* filters */}
         <div
-          role="tablist"
+          role="group"
           aria-label="Filter work by service"
           className="mt-9 flex flex-wrap gap-2"
         >
@@ -104,13 +105,13 @@ export default function WorkShowcase() {
             return (
               <button
                 key={f.value}
-                role="tab"
-                aria-selected={active}
+                type="button"
+                aria-pressed={active}
                 onClick={() => setFilter(f.value)}
-                className={`h-display inline-flex min-h-11 items-center rounded-full border px-4 text-xs uppercase tracking-[0.2em] transition-all sm:min-h-0 sm:py-2.5 ${
+                className={`h-display inline-flex min-h-11 items-center rounded-full border px-4 text-xs uppercase tracking-[0.2em] transition-colors ${
                   active
                     ? "border-brand-red bg-brand-red/15 text-white"
-                    : "border-white/15 bg-white/[0.03] text-white/60 hover:border-white/30 hover:text-white"
+                    : "border-white/15 bg-white/[0.03] text-white/75 hover:border-white/30 hover:text-white"
                 }`}
               >
                 {f.label}
@@ -129,7 +130,8 @@ export default function WorkShowcase() {
                 key={tile.key}
                 href={tile.url}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
+                aria-label={`${tile.alt} — ${tile.label}, view on Instagram`}
                 onMouseEnter={() => tile.video && play(tile.key)}
                 onMouseLeave={() => tile.video && stop(tile.key)}
                 className={`card-edge group relative overflow-hidden rounded-md bg-white/[0.03] ${
@@ -147,7 +149,7 @@ export default function WorkShowcase() {
                     loop
                     playsInline
                     preload="none"
-                    aria-label={tile.alt}
+                    aria-hidden
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-105"
                   />
                 ) : (
@@ -168,15 +170,15 @@ export default function WorkShowcase() {
                     <svg width="9" height="9" viewBox="0 0 24 24" aria-hidden>
                       <path d="M8 5l12 7-12 7V5z" fill="currentColor" className="text-white" />
                     </svg>
-                    <span className="h-display text-[10px] uppercase tracking-[0.15em] text-white">
-                      {tile.plays ? compact(tile.plays) : "Reel"}
+                    <span className="h-display text-[11px] uppercase tracking-[0.15em] text-white">
+                      Reel
                     </span>
                   </span>
                 )}
 
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 sm:p-4">
-                  <span className="h-display block text-[10px] uppercase tracking-[0.25em] text-brand-red">
-                    {tile.service}
+                  <span className="h-display inline-block rounded-sm bg-black/70 px-1.5 py-0.5 text-[11px] uppercase tracking-[0.2em] text-white">
+                    {tile.label}
                   </span>
                   {isFeature && (
                     <p className="mt-1.5 line-clamp-2 text-sm text-white/90">{tile.alt}</p>
@@ -187,20 +189,22 @@ export default function WorkShowcase() {
           })}
         </div>
 
-        {/* absorbs what the old Instagram strip was for */}
         <div className="mt-10 flex flex-col items-center gap-4 text-center">
-          <p className="text-sm text-white/50">
-            {SHOWCASE.length} of {IG_POSTS.length} builds — the rest live on Instagram.
+          <p className="text-sm text-white/65">
+            {SHOWCASE.length} highlights from {IG_POSTS.length}+ posts — the rest live on Instagram and TikTok.
           </p>
           <a
-            href={BUSINESS.instagram}
+            href={BUSINESS.social.instagram}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            data-track="instagram"
             className="h-display inline-flex min-h-11 items-center gap-3 rounded-sm bg-red-grad px-6 text-xs uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5"
           >
-            Follow {BUSINESS.instagramHandle}
+            Follow {BUSINESS.social.instagramHandle}
           </a>
         </div>
+
+        <TikTokEmbed />
       </div>
     </section>
   );

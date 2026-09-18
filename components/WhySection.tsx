@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SectionHeader from "./SectionHeader";
 import { WHY_POINTS } from "@/lib/data";
+import { BUSINESS, WARRANTY } from "@/lib/business";
 
 export default function WhySection() {
   return (
@@ -32,7 +33,7 @@ export default function WhySection() {
                 <br /> not commuters.
               </>
             }
-            description="We exist for one reason: deliver the level of work a Dallas car enthusiast actually wants — clean, on time, and warranted. Here's how we keep that bar."
+            description="We exist for one reason: deliver the level of work a Dallas car enthusiast actually wants. Here's how we keep that bar."
           />
 
           {/* Quote panel */}
@@ -59,10 +60,16 @@ export default function WhySection() {
                 </svg>
               </div>
               <div className="text-sm">
-                <div className="h-display uppercase tracking-widest text-white">
-                  @thedallastintshop
-                </div>
-                <div className="text-white/55">From the studio</div>
+                <a
+                  href={BUSINESS.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-track="instagram"
+                  className="h-display uppercase tracking-widest text-white hover:text-brand-red"
+                >
+                  {BUSINESS.social.instagramHandle}
+                </a>
+                <div className="text-white/60">From the shop&apos;s Instagram</div>
               </div>
             </div>
           </div>
@@ -76,7 +83,7 @@ export default function WhySection() {
                 className="card-edge group relative overflow-hidden rounded-md bg-white/[0.03] p-6 transition-all hover:bg-white/[0.05]"
               >
                 <div className="flex items-start justify-between">
-                  <span className="h-display text-5xl leading-none text-brand-red/60 transition-colors group-hover:text-brand-red">
+                  <span className="h-display text-5xl leading-none text-brand-red/70 transition-colors group-hover:text-brand-red">
                     {p.n}
                   </span>
                   <span className="h-px w-8 translate-y-3 bg-white/20" />
@@ -84,10 +91,11 @@ export default function WhySection() {
                 <h3 className="mt-4 h-display text-xl uppercase tracking-wide text-white">
                   {p.title}
                 </h3>
-                <p className="mt-2 text-sm text-white/70">{p.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/75">{p.body}</p>
               </li>
             ))}
           </ul>
+          <p className="mt-4 text-xs text-white/60">{WARRANTY.note}</p>
         </div>
       </div>
     </section>

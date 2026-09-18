@@ -3,17 +3,18 @@
 
    Everything shop-specific lives here. Reusing this engine for
    another shop means editing this file and the BUSINESS block in
-   lib/data.ts — the step machine, validation, delivery, and abuse
+   lib/business.ts — the step machine, validation, delivery, and abuse
    guards are all industry-agnostic and need no changes.
    ============================================================ */
 
 import type { ReactNode } from "react";
+import { BUSINESS } from "./business";
 
 /* ---------- shop constants ---------- */
 
 // Where the fallback "text us directly" link points when the automated
-// text fails. Digits only. Matches BUSINESS.phone / their Google listing.
-export const SHOP_SMS = "4696552884";
+// text fails. Digits only, from the one phone number in lib/business.ts.
+export const SHOP_SMS = BUSINESS.smsDigits;
 
 /* This shop is SMS-only: quotes reach them through /api/notify (Textbelt)
    and nowhere else. There is deliberately no email channel and no shop
@@ -30,13 +31,16 @@ export const SHOP_SMS = "4696552884";
 export const MAKES = [
   "Acura",
   "Alfa Romeo",
+  "Aston Martin",
   "Audi",
+  "Bentley",
   "BMW",
   "Buick",
   "Cadillac",
   "Chevrolet",
   "Chrysler",
   "Dodge",
+  "Ferrari",
   "Ford",
   "Genesis",
   "GMC",
@@ -46,6 +50,7 @@ export const MAKES = [
   "Jaguar",
   "Jeep",
   "Kia",
+  "Lamborghini",
   "Land Rover",
   "Lexus",
   "Lincoln",
@@ -60,18 +65,22 @@ export const MAKES = [
   "Porsche",
   "Ram",
   "Rivian",
+  "Rolls-Royce",
   "Subaru",
   "Tesla",
   "Toyota",
   "Volkswagen",
   "Volvo",
+  // Kept last, out of alphabetical order, so it's always findable. Picking
+  // it relabels the model field "Make & model".
+  "Other",
 ];
 
 /* ---------- body style ---------- */
 
 /* Tint pricing keys off how many windows a car has far more than the exact
-   model, so this is the single most useful pricing input on the form —
-   worth its own step. */
+   model, so tint quotes ask for it in the details step. Other services
+   don't, so nobody else is asked. */
 export type BodyStyle = {
   value: string;
   hint: string;
@@ -151,59 +160,58 @@ export const BODY_STYLES: BodyStyle[] = [
   },
 ];
 
-/* ---------- service chips ---------- */
+/* ---------- services & follow-ups ---------- */
 
-/* Tapping beats typing on a phone. Multi-select, and the step passes if the
-   customer taps anything OR types anything — nobody gets blocked because
-   they couldn't name what they want.
+/* Step 1 asks what they want; step 3 asks only the follow-ups for what they
+   picked. Keys match the service slugs in lib/services.ts, so
+   /quote?service=<slug> preselects the right chip.
 
-   Tint options come first because they're the volume business; the rest of
-   the shop's services follow so a PPF or wrap lead has somewhere to land.
-   Detailing is intentionally absent — the shop does not offer it. */
-export type ServiceChip = {
+   Follow-up options describe AREAS the customer wants done, in their words
+   — not packages or prices the shop sells. The shop confirms scope when it
+   replies. Every answer is carried into the text to the shop (see
+   buildDetails in QuoteForm and buildSms in app/api/notify/route.ts). */
+export type QuoteService = {
+  key: string;
+  /** Chip label, and the name used in the text to the shop */
   label: string;
   icon: ReactNode;
+  followUp?: { question: string; options: string[] };
+  /** Tint pricing depends on window count, so tint also asks body style */
+  needsBodyStyle?: boolean;
+  /** Placeholder for the notes box when this service is selected */
+  notesHint?: string;
+  /** Notes are required when this is the only service picked */
+  notesRequiredAlone?: boolean;
 };
 
-export const SERVICE_CHIPS: ServiceChip[] = [
+const NOT_SURE = "Not sure yet";
+
+export const QUOTE_SERVICES: QuoteService[] = [
   {
-    label: "Full Car Tint",
+    key: "window-tint",
+    label: "Window Tint",
     icon: (
       <>
         <rect x="3" y="5" width="18" height="14" rx="2" />
         <path d="M12 5v14M3 12h18" />
       </>
     ),
+    needsBodyStyle: true,
+    followUp: {
+      question: "Which windows?",
+      options: [
+        "Full car (sides & rear)",
+        "Front two windows",
+        "Windshield",
+        "Windshield strip",
+        "Tint removal",
+        NOT_SURE,
+      ],
+    },
+    notesHint: "Shade you're after, existing tint, deadline…",
   },
   {
-    label: "Front Two",
-    icon: (
-      <>
-        <rect x="3" y="5" width="18" height="14" rx="2" />
-        <path d="M12 5v14" />
-        <path d="M3.5 7.5h7v9h-7z" />
-      </>
-    ),
-  },
-  {
-    label: "Windshield Strip",
-    icon: (
-      <>
-        <path d="M3 16l2.5-8A2 2 0 0 1 7.4 6.5h9.2A2 2 0 0 1 18.5 8L21 16z" />
-        <path d="M3.8 9.5h16.4" />
-      </>
-    ),
-  },
-  {
-    label: "Tint Removal",
-    icon: (
-      <>
-        <rect x="3" y="5" width="18" height="14" rx="2" />
-        <path d="M8.5 9.5l7 5M15.5 9.5l-7 5" />
-      </>
-    ),
-  },
-  {
+    key: "paint-protection-film",
     label: "PPF",
     icon: (
       <>
@@ -211,8 +219,46 @@ export const SERVICE_CHIPS: ServiceChip[] = [
         <path d="M9 12l2 2 4-4" />
       </>
     ),
+    followUp: {
+      question: "What would you like covered?",
+      options: [
+        "Front bumper",
+        "Hood",
+        "Fenders",
+        "Mirrors",
+        "Headlights",
+        "Full front end",
+        "Full vehicle",
+        NOT_SURE,
+      ],
+    },
+    notesHint: "Clear, satin or colored? Anything else we should know…",
   },
   {
+    key: "chrome-delete",
+    label: "Chrome Delete",
+    icon: (
+      <>
+        <rect x="3" y="8" width="18" height="8" rx="2" />
+        <path d="M6 12h12" />
+        <path d="M4 4l16 16" />
+      </>
+    ),
+    followUp: {
+      question: "Which chrome do you want gone?",
+      options: [
+        "Window trim",
+        "Grille",
+        "Badges & emblems",
+        "Bumper & body trim",
+        "All exterior chrome",
+        NOT_SURE,
+      ],
+    },
+    notesHint: "Any pieces we should know about…",
+  },
+  {
+    key: "vinyl-wraps",
     label: "Vinyl Wrap",
     icon: (
       <>
@@ -220,8 +266,22 @@ export const SERVICE_CHIPS: ServiceChip[] = [
         <path d="M4 12c4-2.5 12-2.5 16 0" />
       </>
     ),
+    followUp: {
+      question: "What are you thinking?",
+      options: [
+        "Full color change",
+        "Roof",
+        "Hood",
+        "Mirrors",
+        "Accents & trim",
+        "Decals",
+        NOT_SURE,
+      ],
+    },
+    notesHint: "Color and finish you're after…",
   },
   {
+    key: "ceramic-coating",
     label: "Ceramic Coating",
     icon: (
       <>
@@ -229,18 +289,10 @@ export const SERVICE_CHIPS: ServiceChip[] = [
         <path d="M9.5 13.5a2.5 2.5 0 0 0 2.5 2.5" />
       </>
     ),
+    notesHint: "New car or daily driver? Anything about the paint's condition…",
   },
   {
-    label: "Paint Correction",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="8" />
-        <path d="M12 4a8 8 0 0 1 0 16" />
-        <path d="M9 9.5c1.5-1.5 4.5-1.5 6 0" />
-      </>
-    ),
-  },
-  {
+    key: "powder-coating",
     label: "Powder Coating",
     icon: (
       <>
@@ -249,8 +301,23 @@ export const SERVICE_CHIPS: ServiceChip[] = [
         <path d="M12 4v3M12 17v3M4 12h3M17 12h3" />
       </>
     ),
+    notesHint: "Which parts, and what color or finish?",
+    notesRequiredAlone: true,
   },
   {
+    key: "paint-correction",
+    label: "Paint Correction",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="8" />
+        <path d="M12 4a8 8 0 0 1 0 16" />
+        <path d="M9 9.5c1.5-1.5 4.5-1.5 6 0" />
+      </>
+    ),
+    notesHint: "Swirls, scratches, haze — what are you seeing?",
+  },
+  {
+    key: "other",
     label: "Other",
     icon: (
       <>
@@ -258,8 +325,14 @@ export const SERVICE_CHIPS: ServiceChip[] = [
         <path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 .9-1 1.7M12 17h.01" />
       </>
     ),
+    notesHint: "Tell us what you have in mind",
+    notesRequiredAlone: true,
   },
 ];
+
+export function quoteService(key: string): QuoteService | undefined {
+  return QUOTE_SERVICES.find((s) => s.key === key);
+}
 
 /* ---------- contact preference ---------- */
 
@@ -286,5 +359,5 @@ export const CONFIRM_MSGS: Record<ContactPref, string> = {
 
 /* ---------- steps ---------- */
 
-export const STEPS = ["Vehicle", "Style", "Service", "Contact"] as const;
+export const STEPS = ["Service", "Vehicle", "Details", "Contact"] as const;
 export const TOTAL_STEPS = STEPS.length; // interactive steps before confirmation

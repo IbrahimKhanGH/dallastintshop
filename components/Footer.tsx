@@ -1,132 +1,149 @@
 import Link from "next/link";
 import Logo from "./Logo";
-import { BUSINESS } from "@/lib/data";
+import { SocialLinks } from "./SocialLinks";
+import { BUSINESS, WARRANTY } from "@/lib/business";
+import { SERVICES, SECONDARY_SERVICES, servicePath } from "@/lib/services";
 
 export default function Footer() {
+  const { address, google, social } = BUSINESS;
   return (
-    <footer className="relative border-t border-white/10 bg-brand-black pb-24 pt-16 lg:pb-16">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div className="lg:col-span-2">
-          <Logo />
-          <p className="mt-5 max-w-md text-sm text-white/60">
-            Dallas / Richardson&apos;s premium automotive studio for ceramic
-            tint, paint protection film, vinyl wraps, ceramic coatings, paint
-            correction, and powder coating.
+    <footer className="relative border-t border-white/10 bg-[#0a0a0a] pb-24 pt-16 lg:pb-12">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
+        <div className="lg:col-span-4">
+          <Logo height={72} className="-ml-8" />
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
+            Window tint, paint protection film, vinyl wraps, ceramic coating,
+            powder coating and chrome delete in Richardson, serving Dallas.
           </p>
-
-          <div className="mt-6 flex items-center gap-3">
-            <a
-              href={BUSINESS.instagram}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-              className="grid h-10 w-10 place-items-center rounded-sm border border-white/15 bg-white/[0.04] text-white transition-colors hover:border-brand-red hover:text-brand-red"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <rect
-                  x="3"
-                  y="3"
-                  width="18"
-                  height="18"
-                  rx="5"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                />
-                <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-              </svg>
-            </a>
-            <a
-              href={BUSINESS.phoneHref}
-              aria-label="Call"
-              className="grid h-10 w-10 place-items-center rounded-sm border border-white/15 bg-white/[0.04] text-white transition-colors hover:border-brand-red hover:text-brand-red"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path
-                  d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.86 19.86 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.95.37 1.87.7 2.75a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.33-1.27a2 2 0 012.11-.45c.88.33 1.8.57 2.75.7A2 2 0 0122 16.92z"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                />
-              </svg>
-            </a>
-            <a
-              href={BUSINESS.mapsHref}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Directions"
-              className="grid h-10 w-10 place-items-center rounded-sm border border-white/15 bg-white/[0.04] text-white transition-colors hover:border-brand-red hover:text-brand-red"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path
-                  d="M12 22s7-7.58 7-13a7 7 0 10-14 0c0 5.42 7 13 7 13z"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                />
-                <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.8" />
-              </svg>
-            </a>
-          </div>
+          <SocialLinks className="mt-6" />
         </div>
 
-        <div>
-          <h4 className="h-display text-sm uppercase tracking-[0.3em] text-brand-red">
-            Services
-          </h4>
-          <ul className="mt-4 space-y-2 text-sm text-white/70">
-            <li>Ceramic Window Tint</li>
-            <li>Paint Protection Film</li>
-            <li>Vinyl Wraps</li>
-            <li>Ceramic Coating</li>
-            <li>Paint Correction</li>
-            <li>Powder Coating</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="h-display text-sm uppercase tracking-[0.3em] text-brand-red">
-            Visit the Studio
-          </h4>
-          <address className="mt-4 not-italic text-sm text-white/70">
-            {BUSINESS.address.split(",").map((line, i, arr) => (
-              <span key={i} className="block">
-                {line.trim()}
-                {i < arr.length - 1 ? "" : ""}
-              </span>
+        <nav aria-label="Services" className="lg:col-span-3">
+          <h2 className="h-display text-sm uppercase tracking-[0.3em] text-brand-red">Services</h2>
+          <ul className="mt-4 space-y-1 text-sm">
+            {SERVICES.map((s) => (
+              <li key={s.slug}>
+                <Link
+                  href={servicePath(s.slug)}
+                  className="inline-block py-1.5 text-white/75 transition-colors hover:text-white"
+                >
+                  {s.name}
+                </Link>
+              </li>
             ))}
-          </address>
-          {/* -my-2 keeps the visual spacing identical while py-2 grows the
-              hit area to a comfortable thumb target on mobile. */}
-          <div className="mt-2 text-sm sm:mt-4">
-            <a
-              href={BUSINESS.phoneHref}
-              className="block py-2 text-white transition-colors hover:text-brand-red sm:py-0.5"
-            >
-              {BUSINESS.phone}
-            </a>
-            <a
-              href={BUSINESS.instagram}
-              target="_blank"
-              rel="noreferrer"
-              className="block py-2 text-white/70 transition-colors hover:text-brand-red sm:py-0.5"
-            >
-              {BUSINESS.instagramHandle}
-            </a>
+            {SECONDARY_SERVICES.map((s) => (
+              <li key={s.slug} className="py-1.5 text-white/55">
+                Also: {s.name}
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="lg:col-span-5">
+          <h2 className="h-display text-sm uppercase tracking-[0.3em] text-brand-red">
+            Visit the shop
+          </h2>
+          <div className="mt-4 grid gap-6 sm:grid-cols-2">
+            <div>
+              <address className="not-italic text-sm leading-relaxed text-white/80">
+                <a
+                  href={google.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-white"
+                >
+                  {address.street}, {address.suite}
+                  <br />
+                  {address.city}, {address.region} {address.postalCode}
+                </a>
+              </address>
+              <a
+                href={google.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="directions"
+                className="h-display mt-4 inline-flex min-h-11 items-center gap-2 rounded-sm bg-red-grad px-5 text-sm uppercase tracking-[0.2em] text-white shadow-redGlow"
+              >
+                <PinIcon />
+                Get directions
+              </a>
+              <div className="mt-4 text-sm">
+                <a
+                  href={BUSINESS.phoneHref}
+                  data-track="call"
+                  className="inline-block py-1.5 text-white transition-colors hover:text-brand-red"
+                >
+                  {BUSINESS.phone}
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xs uppercase tracking-[0.2em] text-white/60">Hours</h3>
+              <dl className="mt-2 space-y-1 text-sm">
+                {BUSINESS.hours.map((h) => (
+                  <div key={h.label} className="flex justify-between gap-4">
+                    <dt className="text-white/65">{h.label}</dt>
+                    <dd className="text-white/90">{h.value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <ul className="mt-4 space-y-1 text-sm">
+                <li>
+                  <a
+                    href={social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-track="instagram"
+                    className="inline-block py-1 text-white/70 transition-colors hover:text-white"
+                  >
+                    Instagram {social.instagramHandle}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={social.tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-track="tiktok"
+                    className="inline-block py-1 text-white/70 transition-colors hover:text-white"
+                  >
+                    TikTok {social.tiktokHandle}
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto mt-14 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/10 px-4 pt-6 text-xs text-white/40 sm:flex-row sm:px-6 lg:px-8">
-        <div>© {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.</div>
+      <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <p className="text-xs text-white/55">{WARRANTY.note}</p>
+      </div>
+
+      <div className="mx-auto mt-6 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/10 px-4 pt-6 text-xs text-white/55 sm:flex-row sm:px-6 lg:px-8">
+        <div>
+          © {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
+        </div>
         <div className="flex items-center gap-5">
-          <Link href="/privacy" className="px-1 py-2 transition-colors hover:text-white/80">
+          <Link href="/privacy" className="px-1 py-3 transition-colors hover:text-white">
             Privacy
           </Link>
-          <Link href="/terms" className="px-1 py-2 transition-colors hover:text-white/80">
+          <Link href="/terms" className="px-1 py-3 transition-colors hover:text-white">
             Terms
           </Link>
           <span className="h-display tracking-[0.3em]">RICHARDSON · TX</span>
         </div>
       </div>
     </footer>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M12 22s7-7.58 7-13a7 7 0 10-14 0c0 5.42 7 13 7 13z" stroke="currentColor" strokeWidth="2" />
+      <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="2" />
+    </svg>
   );
 }
