@@ -15,17 +15,12 @@ export const metadata = pageMetadata({
 
 export default function QuotePage() {
   return (
-    <main id="main" className="relative min-h-screen overflow-hidden bg-brand-black">
+    <main id="main" className="relative isolate min-h-screen overflow-hidden bg-brand-black">
       <Navbar />
 
       {/* backdrop, dialed down from the homepage hero so the form stays
           the brightest thing on the page */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(193,18,31,0.28)_0%,transparent_70%)]" />
-        <div className="absolute inset-0 bg-grid-lines [background-size:60px_60px] opacity-30" />
-        <div className="absolute inset-0 racing-stripes opacity-20" />
-      </div>
-
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(193,18,31,0.28)_0%,transparent_70%)]" />
       <div className="pointer-events-none absolute left-0 right-0 top-16 h-[2px] led-strip sm:top-20" />
 
       <section className="mx-auto max-w-3xl px-4 pb-24 pt-28 sm:px-6 sm:pt-36 lg:px-8">

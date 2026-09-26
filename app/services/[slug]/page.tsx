@@ -118,7 +118,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               <Link
                 href={quotePath(service.slug)}
                 data-track="quote_start"
-                className="h-display inline-flex min-h-12 items-center gap-3 rounded-sm bg-red-grad px-6 text-sm uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5"
+                className="h-display inline-flex min-h-12 items-center gap-3 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 text-sm uppercase tracking-[0.2em] text-white transition-colors"
               >
                 Get a {service.tag} quote
               </Link>
@@ -134,7 +134,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
           <div className="lg:col-span-6">
             <div className="card-edge relative overflow-hidden rounded-md bg-white/[0.03] p-1">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[5px]">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-none">
                 <Image
                   src={service.image}
                   alt={service.imageAlt}
@@ -172,7 +172,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               Recent {service.name.toLowerCase()} work
             </h2>
             <p className="mt-3 max-w-2xl text-white/70">
-              Straight from our Instagram — tap any photo for the original post.
+              Straight from our Instagram. Tap any photo for the original post.
             </p>
             <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
               {work.map((w) => (
@@ -189,7 +189,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                       alt={w.alt}
                       fill
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
                     <p className="pointer-events-none absolute inset-x-0 bottom-0 line-clamp-2 p-3 text-xs text-white/90">
@@ -235,7 +235,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             <Link
               href={quotePath(service.slug)}
               data-track="quote_start"
-              className="h-display inline-flex min-h-12 items-center rounded-sm bg-red-grad px-6 text-sm uppercase tracking-[0.2em] text-white shadow-redGlow"
+              className="h-display inline-flex min-h-12 items-center rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 text-sm uppercase tracking-[0.2em] text-white"
             >
               Start your quote
             </Link>
@@ -261,7 +261,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               <li key={s.slug}>
                 <Link
                   href={servicePath(s.slug)}
-                  className="inline-flex min-h-11 items-center rounded-full border border-white/15 bg-white/[0.03] px-4 text-sm text-white/85 transition-colors hover:border-brand-red hover:text-white"
+                  className="inline-flex min-h-11 items-center border border-white/15 bg-white/[0.03] px-4 text-sm text-white/85 transition-colors hover:border-brand-red hover:text-white"
                 >
                   {s.name}
                 </Link>

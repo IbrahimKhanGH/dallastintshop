@@ -56,7 +56,7 @@ export default function WorkShowcase() {
   return (
     <section
       id="work"
-      className="relative overflow-hidden border-t border-white/10 bg-brand-surface/40 py-20 sm:py-28"
+      className="relative isolate overflow-hidden border-t border-white/10 bg-brand-surface/40 py-20 sm:py-28"
     >
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(50%_50%_at_15%_0%,rgba(193,18,31,0.18)_0%,transparent_70%)]" />
 
@@ -108,7 +108,7 @@ export default function WorkShowcase() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setFilter(f.value)}
-                className={`h-display inline-flex min-h-11 items-center rounded-full border px-4 text-xs uppercase tracking-[0.2em] transition-colors ${
+                className={`h-display inline-flex min-h-11 items-center border px-4 text-xs uppercase tracking-[0.2em] transition-colors ${
                   active
                     ? "border-brand-red bg-brand-red/15 text-white"
                     : "border-white/15 bg-white/[0.03] text-white/75 hover:border-white/30 hover:text-white"
@@ -120,23 +120,19 @@ export default function WorkShowcase() {
           })}
         </div>
 
-        {/* the feed — reels are 9:16, stills are square, so the grid runs on
-            fixed rows and the feature tile spans two of them */}
-        <div className="mt-8 grid auto-rows-[minmax(0,11rem)] grid-cols-2 gap-3 sm:auto-rows-[minmax(0,13rem)] sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+        {/* the feed: one uniform grid of 4:5 tiles, reels cropped to fit */}
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
           {tiles.map((tile) => {
-            const isFeature = tile.key === featureKey;
             return (
               <a
                 key={tile.key}
                 href={tile.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${tile.alt} — ${tile.label}, view on Instagram`}
+                aria-label={`${tile.alt}, ${tile.label}, view on Instagram`}
                 onMouseEnter={() => tile.video && play(tile.key)}
                 onMouseLeave={() => tile.video && stop(tile.key)}
-                className={`card-edge group relative overflow-hidden rounded-md bg-white/[0.03] ${
-                  isFeature ? "col-span-2 row-span-2" : ""
-                }`}
+                className="card-edge group relative block aspect-[4/5] overflow-hidden bg-white/[0.03]"
               >
                 {tile.video ? (
                   <video
@@ -150,7 +146,7 @@ export default function WorkShowcase() {
                     playsInline
                     preload="none"
                     aria-hidden
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-105"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 ) : (
                   <Image
@@ -158,15 +154,14 @@ export default function WorkShowcase() {
                     alt={tile.alt}
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    className="object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-105"
+                    className="object-cover"
                   />
                 )}
 
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-black/25" />
-                <div className="pointer-events-none absolute inset-0 bg-red-glow opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {tile.kind === "reel" && (
-                  <span className="pointer-events-none absolute right-3 top-3 flex items-center gap-1.5 rounded-sm border border-white/15 bg-black/60 px-2 py-1 backdrop-blur">
+                  <span className="pointer-events-none absolute right-3 top-3 flex items-center gap-1.5 rounded-sm border border-white/15 bg-black/60 px-2 py-1">
                     <svg width="9" height="9" viewBox="0 0 24 24" aria-hidden>
                       <path d="M8 5l12 7-12 7V5z" fill="currentColor" className="text-white" />
                     </svg>
@@ -180,9 +175,6 @@ export default function WorkShowcase() {
                   <span className="h-display inline-block rounded-sm bg-black/70 px-1.5 py-0.5 text-[11px] uppercase tracking-[0.2em] text-white">
                     {tile.label}
                   </span>
-                  {isFeature && (
-                    <p className="mt-1.5 line-clamp-2 text-sm text-white/90">{tile.alt}</p>
-                  )}
                 </div>
               </a>
             );
@@ -191,14 +183,14 @@ export default function WorkShowcase() {
 
         <div className="mt-10 flex flex-col items-center gap-4 text-center">
           <p className="text-sm text-white/65">
-            {SHOWCASE.length} highlights from {IG_POSTS.length}+ posts — the rest live on Instagram and TikTok.
+            {SHOWCASE.length} highlights from {IG_POSTS.length}+ posts. The rest live on Instagram and TikTok.
           </p>
           <a
             href={BUSINESS.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
             data-track="instagram"
-            className="h-display inline-flex min-h-11 items-center gap-3 rounded-sm bg-red-grad px-6 text-xs uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5"
+            className="h-display inline-flex min-h-11 items-center gap-3 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 text-xs uppercase tracking-[0.2em] text-white transition-colors"
           >
             Follow {BUSINESS.social.instagramHandle}
           </a>

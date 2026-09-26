@@ -62,7 +62,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
             {SERVICES.map((s, i) => (
               <ServiceCard key={s.slug} service={s} index={i} />
             ))}
@@ -72,7 +72,7 @@ export default function HomePage() {
             <p>
               {SECONDARY_SERVICES.map((s) => (
                 <span key={s.slug}>
-                  Also available: <span className="text-white">{s.name}</span> — {s.summary}{" "}
+                  Also available: <span className="text-white">{s.name}</span>: {s.summary}{" "}
                   <Link
                     href={quotePath(s.slug)}
                     className="text-white underline decoration-brand-red underline-offset-4"
@@ -93,7 +93,7 @@ export default function HomePage() {
 
       <section
         id="reviews"
-        className="relative scroll-mt-20 overflow-hidden border-t border-white/10 bg-brand-black py-20 sm:py-28"
+        className="relative isolate scroll-mt-20 overflow-hidden border-t border-white/10 bg-brand-black py-20 sm:py-28"
       >
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_40%_at_50%_0%,rgba(193,18,31,0.16)_0%,transparent_70%)]" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -8,7 +8,7 @@ const SHARE_IMAGE = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,
-  alt: "Dallas Tint Shop — window tint, PPF, wraps and chrome delete in Richardson, TX",
+  alt: "Dallas Tint Shop: window tint, PPF, wraps and chrome delete in Richardson, TX",
 };
 
 /* Per-page metadata with its own canonical and og:url.

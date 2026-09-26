@@ -13,7 +13,7 @@ export default function MobileStickyCTA() {
         <div style={{ height: "env(safe-area-inset-bottom)" }} />
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/90 px-3 py-2 backdrop-blur-xl lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/90 px-3 py-2 lg:hidden">
         <div className="grid grid-cols-3 gap-2">
           <a
             href={BUSINESS.phoneHref}
@@ -67,7 +67,7 @@ export default function MobileStickyCTA() {
           <Link
             href="/quote"
             data-track="quote_start"
-            className="h-display flex h-12 items-center justify-center rounded-sm bg-red-grad text-xs uppercase tracking-[0.2em] text-white shadow-redGlow"
+            className="h-display flex h-12 items-center justify-center rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark text-xs uppercase tracking-[0.2em] text-white"
           >
             Get Quote
           </Link>

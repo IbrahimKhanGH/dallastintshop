@@ -249,7 +249,7 @@ export const WHY_POINTS = [
   {
     n: "02",
     title: "Real work, real bay",
-    body: "Every car on this site came through our shop in Richardson — shot by us, posted by us, linked back to the original post.",
+    body: "Every car on this site came through our shop in Richardson, shot by us, posted by us, linked back to the original post.",
   },
   {
     n: "03",

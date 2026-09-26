@@ -125,7 +125,7 @@ export default function MakeCombobox({
         >
           {matches.length === 0 ? (
             <li className="px-4 py-2.5 text-sm text-white/40">
-              No matches — type your make
+              No matches. Type your make
             </li>
           ) : (
             matches.map((make, i) => (

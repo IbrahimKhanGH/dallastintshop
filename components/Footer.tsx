@@ -62,7 +62,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track="directions"
-                className="h-display mt-4 inline-flex min-h-11 items-center gap-2 rounded-sm bg-red-grad px-5 text-sm uppercase tracking-[0.2em] text-white shadow-redGlow"
+                className="h-display mt-4 inline-flex min-h-11 items-center gap-2 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-5 text-sm uppercase tracking-[0.2em] text-white"
               >
                 <PinIcon />
                 Get directions

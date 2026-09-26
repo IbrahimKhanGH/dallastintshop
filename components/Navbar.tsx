@@ -28,16 +28,16 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? "border-b border-white/10 bg-[#0c0c0c]/95 backdrop-blur-md"
-          : "border-b border-transparent bg-gradient-to-b from-black/80 to-transparent"
+          ? "border-b border-white/10 bg-[#0c0c0c]/95"
+          : "border-b border-transparent bg-black/60"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         {/* Negative margin absorbs the artwork's built-in side margin so the
             lettering lines up with the page content. */}
-        <Link href="/" aria-label="Dallas Tint Shop — home" className="-ml-5 flex min-w-0 items-center sm:-ml-6">
+        <Link href="/" aria-label="Dallas Tint Shop home" className="-ml-5 flex min-w-0 items-center sm:-ml-6">
           <Logo height={44} priority className="sm:hidden" />
           <Logo height={56} priority className="hidden sm:block" />
         </Link>
@@ -65,7 +65,7 @@ export default function Navbar() {
           <Link
             href="/quote"
             data-track="quote_start"
-            className="h-display inline-flex items-center gap-2 rounded-sm bg-red-grad px-5 py-2.5 text-sm uppercase tracking-widest text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
+            className="h-display inline-flex items-center gap-2 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-5 py-2.5 text-sm uppercase tracking-widest text-white transition-colors"
           >
             Get a Quote
           </Link>
@@ -97,7 +97,7 @@ export default function Navbar() {
       <div
         id="mobile-menu"
         hidden={!open}
-        className={`overflow-hidden border-t border-white/5 bg-black/95 backdrop-blur-xl transition-[max-height] duration-300 lg:hidden ${
+        className={`overflow-hidden border-t border-white/5 bg-black/95 transition-[max-height] duration-300 lg:hidden ${
           open ? "max-h-[80vh]" : "max-h-0"
         }`}
       >
@@ -123,7 +123,7 @@ export default function Navbar() {
             <Link
               href="/quote"
               onClick={() => setOpen(false)}
-              className="h-display rounded-sm bg-red-grad py-3 text-center text-sm uppercase tracking-widest text-white shadow-redGlow"
+              className="h-display rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark py-3 text-center text-sm uppercase tracking-widest text-white"
             >
               Get a Quote
             </Link>

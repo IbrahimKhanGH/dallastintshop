@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         optional email address, your vehicle, the services you&apos;re
         interested in, your answers to the follow-up questions for those
         services (such as body style or which areas you want covered), and any
-        notes you add. Nothing else — we do
+        notes you add. Nothing else. We do
         not ask for payment details, and we have no account system.
       </p>
 
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
       <h2>Your choices</h2>
       <p>
         Want the details from your quote request deleted, or a copy of what we
-        have? Call us and we&apos;ll take care of it — in practice this means
+        have? Call us and we&apos;ll take care of it. In practice this means
         deleting the text message.
       </p>
 

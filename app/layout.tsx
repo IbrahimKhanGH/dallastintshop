@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import StructuredData from "@/components/StructuredData";
-import { Bebas_Neue, Inter } from "next/font/google";
+import { Barlow, Bebas_Neue } from "next/font/google";
 import { SITE_URL } from "@/lib/site";
 import { BUSINESS } from "@/lib/business";
 import "./globals.css";
@@ -12,7 +12,8 @@ const display = Bebas_Neue({
   display: "swap",
 });
 
-const body = Inter({
+const body = Barlow({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -54,7 +55,7 @@ export default function RootLayout({
       <body className="bg-brand-black text-brand-off antialiased">
         <a
           href="#main"
-          className="sr-only z-[60] rounded-sm bg-white px-4 py-3 text-sm font-medium text-black focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-[60] rounded-sm bg-brand-off px-4 py-3 text-sm font-medium text-black focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>

@@ -30,7 +30,6 @@ export default function CTASection() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/85 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(50%_60%_at_20%_50%,rgba(193,18,31,0.35)_0%,transparent_70%)]" />
-        <div className="absolute inset-0 racing-stripes opacity-30" />
       </div>
 
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-2 lg:px-8">
@@ -56,7 +55,7 @@ export default function CTASection() {
             <a
               href={BUSINESS.phoneHref}
               data-track="call"
-              className="h-display group inline-flex items-center gap-3 rounded-sm bg-red-grad px-6 py-4 text-sm uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg sm:text-base"
+              className="h-display group inline-flex items-center gap-3 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 py-4 text-sm uppercase tracking-[0.2em] text-white transition-colors sm:text-base"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
                 <path
@@ -72,7 +71,7 @@ export default function CTASection() {
               target="_blank"
               rel="noopener noreferrer"
               data-track="directions"
-              className="h-display inline-flex items-center gap-3 rounded-sm border border-white/20 bg-white/[0.04] px-6 py-4 text-sm uppercase tracking-[0.2em] text-white backdrop-blur transition-all hover:bg-white/10 sm:text-base"
+              className="h-display inline-flex items-center gap-3 rounded-sm border border-white/20 bg-white/[0.04] px-6 py-4 text-sm uppercase tracking-[0.2em] text-white transition-colors hover:bg-white/10 sm:text-base"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
                 <path
@@ -103,7 +102,7 @@ export default function CTASection() {
             /quote. Deliberately not a form: a second set of inputs here
             would either duplicate the step engine or drop the lead, and a
             half-width card is the wrong place for a four-step flow. */}
-        <div className="card-edge relative rounded-md bg-black/60 p-6 backdrop-blur sm:p-8">
+        <div className="card-edge relative rounded-md bg-black/60 p-6 sm:p-8">
           <div className="mb-6 flex items-center justify-between">
             <h3 className="h-display text-2xl uppercase tracking-wide text-white">
               Quick Quote
@@ -121,7 +120,7 @@ export default function CTASection() {
           <ol className="mt-6 space-y-3">
             {QUOTE_PREVIEW.map((s, i) => (
               <li key={s.label} className="flex items-start gap-3">
-                <span className="h-display mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white/10 text-[11px] text-white/70">
+                <span className="h-display mt-0.5 grid h-6 w-6 shrink-0 place-items-center bg-white/10 text-[11px] text-white/70">
                   {i + 1}
                 </span>
                 <div className="min-w-0">
@@ -137,13 +136,9 @@ export default function CTASection() {
           <Link
             href="/quote"
             data-track="quote_start"
-            className="h-display group relative mt-7 flex w-full items-center justify-center gap-2 overflow-hidden rounded-sm bg-red-grad px-6 py-4 text-sm uppercase tracking-[0.25em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
+            className="h-display group relative mt-7 flex w-full items-center justify-center gap-2 overflow-hidden rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 py-4 text-sm uppercase tracking-[0.25em] text-white transition-colors"
           >
             Start your quote
-            <span className="transition-transform group-hover:translate-x-0.5">
-              →
-            </span>
-            <span className="absolute inset-y-0 right-0 w-14 -skew-x-12 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           </Link>
 
           <p className="mt-3 text-center text-xs text-white/60">

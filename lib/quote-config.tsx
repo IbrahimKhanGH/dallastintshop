@@ -314,7 +314,7 @@ export const QUOTE_SERVICES: QuoteService[] = [
         <path d="M9 9.5c1.5-1.5 4.5-1.5 6 0" />
       </>
     ),
-    notesHint: "Swirls, scratches, haze — what are you seeing?",
+    notesHint: "Swirls, scratches, haze: what are you seeing?",
   },
   {
     key: "other",
@@ -350,11 +350,11 @@ export type ContactPref = (typeof CONTACT_OPTS)[number]["value"];
    matches the channel they'll actually hear back on. */
 export const CONFIRM_MSGS: Record<ContactPref, string> = {
   "Text me":
-    "We'll text you back with your estimate — usually within a few hours during business hours.",
+    "We'll text you back with your estimate, usually within a few hours during business hours.",
   "Call me":
-    "We'll give you a call back with your estimate — usually within a few hours during business hours.",
+    "We'll give you a call back with your estimate, usually within a few hours during business hours.",
   "Email me":
-    "We'll email you back with your estimate — usually within a few hours during business hours.",
+    "We'll email you back with your estimate, usually within a few hours during business hours.",
 };
 
 /* ---------- steps ---------- */

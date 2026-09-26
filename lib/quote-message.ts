@@ -56,7 +56,7 @@ export function buildPayload(
   guard: { botcheck: string; elapsed_ms: number },
 ) {
   return {
-    subject: `Quote Request — ${a.vehicle} (${a.name})`,
+    subject: `Quote Request: ${a.vehicle} (${a.name})`,
     from_name: a.name,
     name: a.name,
     phone: a.phone,

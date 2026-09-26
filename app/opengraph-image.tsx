@@ -11,7 +11,7 @@ import { BUSINESS, CERTIFICATION } from "@/lib/business";
    preview shows a car, with the shop's real logo artwork on top. No rating
    or review count: this image is cached by every platform it's shared to,
    so any number baked in here would go stale. */
-export const alt = "Dallas Tint Shop — window tint, PPF, wraps and chrome delete in Richardson, TX";
+export const alt = "Dallas Tint Shop: window tint, PPF, wraps and chrome delete in Richardson, TX";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

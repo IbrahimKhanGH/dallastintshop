@@ -20,7 +20,7 @@ export default function TermsPage() {
     <LegalPage title="Terms of Use" updated="September 2026">
       <p>
         These terms cover your use of this website. They don&apos;t cover the
-        work we do on your vehicle — the terms for that are the ones the shop
+        work we do on your vehicle. The terms for that are the ones the shop
         gives you for your job.
       </p>
 
@@ -36,14 +36,14 @@ export default function TermsPage() {
       <p>
         Every photo and video here is our own work, shot at our shop in
         Richardson. They show completed jobs on customer vehicles and are not a
-        guarantee of an identical result on yours — materials, colours and
+        guarantee of an identical result on yours. Materials, colours and
         finishes vary by vehicle.
       </p>
 
       <h2>Reviews</h2>
       <p>
         Reviews on this site come from our Google Business Profile, in the
-        reviewer&apos;s own words — either loaded from Google directly or quoted
+        reviewer&apos;s own words, either loaded from Google directly or quoted
         from it word for word. We don&apos;t edit them and we don&apos;t post
         reviews we didn&apos;t receive.
       </p>
@@ -58,7 +58,7 @@ export default function TermsPage() {
       <h2>Availability</h2>
       <p>
         We aim to keep the site accurate and online, but we don&apos;t guarantee
-        either. Hours, pricing and services can change — call ahead if it
+        either. Hours, pricing and services can change, so call ahead if it
         matters.
       </p>
 

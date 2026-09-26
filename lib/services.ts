@@ -42,7 +42,7 @@ export type Service = {
 
 const WARRANTY_FAQ: Faq = {
   q: "Is the work covered by a warranty?",
-  a: `Yes — everything we do is backed by our ${WARRANTY.label.replace("*", "")}. ${WARRANTY.note.replace("*", "")}`,
+  a: `Yes. Everything we do is backed by our ${WARRANTY.label.replace("*", "")}. ${WARRANTY.note.replace("*", "")}`,
 };
 
 /* The six services the owner named as the main push, in the order the
@@ -54,7 +54,7 @@ export const SERVICES: Service[] = [
     name: "Window Tint",
     tag: "Tint",
     summary:
-      "LLumar ceramic window tint for heat, glare and privacy — from two front windows to the full car and windshield.",
+      "LLumar ceramic window tint for heat, glare and privacy, from two front windows to the full car and windshield.",
     highlights: [
       CERTIFICATION,
       "LLumar ceramic films",
@@ -82,17 +82,17 @@ export const SERVICES: Service[] = [
       h1: "Window tint in Richardson & Dallas",
       intro: [
         // Client statement: "ALSO DOES LLUMAR CERTIFIED"
-        "Dallas Tint Shop is LLumar Certified, and LLumar film is what goes on our customers' glass — including LLumar's ceramic tint lines like CTX. Ceramic film is built to cut heat and UV without the dark, cheap look.",
+        "Dallas Tint Shop is LLumar Certified, and LLumar film is what goes on our customers' glass, including LLumar's ceramic tint lines like CTX. Ceramic film is built to cut heat and UV without the dark, cheap look.",
         // Captions: "5% all around and 30% front windshield", "70% windshield,
         // 15% front windows, and 5% rear", "Two front windows and front
         // windshield installed", "X4 came in for two front windows to match
         // the back"
-        "We tint everything from sedans and work vans to G-Wagons and C8s: full cars, windshields, or just the two fronts to match the factory rear glass. Tell us the shade you're after — we've installed everything from 5% limo to a light 70% windshield film.",
+        "We tint everything from sedans and work vans to G-Wagons and C8s: full cars, windshields, or just the two fronts to match the factory rear glass. Tell us the shade you're after. We've installed everything from 5% limo to a light 70% windshield film.",
       ],
       faqs: [
         {
           q: "What tint film do you use?",
-          a: "We're LLumar Certified and install LLumar window film, including their ceramic lines. Tell us what matters most — heat, privacy or looks — and we'll recommend a film in your quote.",
+          a: "We're LLumar Certified and install LLumar window film, including their ceramic lines. Tell us what matters most (heat, privacy or looks) and we'll recommend a film in your quote.",
         },
         {
           q: "Can you tint my windshield?",
@@ -100,7 +100,7 @@ export const SERVICES: Service[] = [
         },
         {
           q: "Can you match my front windows to the factory rear tint?",
-          a: "Yes — tinting just the two front windows to match the back is a common quick job for us.",
+          a: "Yes. Tinting just the two front windows to match the back is a common quick job for us.",
         },
         WARRANTY_FAQ,
       ],
@@ -133,7 +133,7 @@ export const SERVICES: Service[] = [
     page: {
       title: "Paint Protection Film (PPF) in Richardson & Dallas, TX",
       metaDescription:
-        "Clear, satin and colored paint protection film in Richardson, TX — partial or full-vehicle PPF with a Lifetime Warranty*. Get a quote from Dallas Tint Shop.",
+        "Clear, satin and colored paint protection film in Richardson, TX. Partial or full-vehicle PPF with a Lifetime Warranty*. Get a quote from Dallas Tint Shop.",
       h1: "Paint protection film in Richardson & Dallas",
       intro: [
         "Paint protection film is a tough, clear urethane layer installed over your paint. It takes the rock chips, road rash and light scratches that North Texas highways hand out, so the paint underneath stays factory-fresh.",
@@ -141,7 +141,7 @@ export const SERVICES: Service[] = [
         // "Genesis GV80 getting a Fiery Orange PPF",
         // "This is how we ensure the most accurate badge placement on your
         //  PPFed vehicle!"
-        "It doesn't have to be clear, either. We've wrapped a G63 in full-vehicle satin PPF and turned a Genesis GV80 Fiery Orange with colored film — with the badge and edge work done carefully enough that it reads like paint.",
+        "It doesn't have to be clear, either. We've wrapped a G63 in full-vehicle satin PPF and turned a Genesis GV80 Fiery Orange with colored film, with the badge and edge work done carefully enough that it reads like paint.",
       ],
       faqs: [
         {
@@ -176,21 +176,21 @@ export const SERVICES: Service[] = [
     page: {
       title: "Chrome Delete in Richardson & Dallas, TX",
       metaDescription:
-        "Chrome delete in Richardson, TX — black out factory chrome trim on trucks, SUVs and cars. Combine with window tint and ceramic coating. Get a quote from Dallas Tint Shop.",
+        "Chrome delete in Richardson, TX. Black out factory chrome trim on trucks, SUVs and cars. Combine with window tint and ceramic coating. Get a quote from Dallas Tint Shop.",
       h1: "Chrome delete in Richardson & Dallas",
       intro: [
         "Factory chrome dates a car fast. A chrome delete takes the bright trim off the exterior and gives it a darker, cleaner finish that makes the whole vehicle look cleaner, meaner and more expensive.",
         // "How to make your SUV/Vehicle look better with a chrome delete!"
-        "It's one of the jobs we take most seriously, and it's a big change on trucks and SUVs in particular. The Denali above came in for a chrome delete alongside LLumar ceramic tint and a ceramic coating — one visit, a completely different truck.",
+        "It's one of the jobs we take most seriously, and it's a big change on trucks and SUVs in particular. The Denali above came in for a chrome delete alongside LLumar ceramic tint and a ceramic coating. One visit, a completely different truck.",
       ],
       faqs: [
         {
           q: "Which chrome can you delete?",
-          a: "Tell us — send the vehicle and the pieces you want blacked out when you request a quote, and we'll confirm what we can cover and how we'd finish it.",
+          a: "Tell us. Send the vehicle and the pieces you want blacked out when you request a quote, and we'll confirm what we can cover and how we'd finish it.",
         },
         {
           q: "Can I get a chrome delete and tint at the same time?",
-          a: "Yes. Combining chrome delete with window tint and ceramic coating in one visit is common — tick all three on the quote form.",
+          a: "Yes. Combining chrome delete with window tint and ceramic coating in one visit is common. Tick all three on the quote form.",
         },
         WARRANTY_FAQ,
       ],
@@ -201,7 +201,7 @@ export const SERVICES: Service[] = [
     name: "Vinyl Wraps",
     tag: "Wraps",
     summary:
-      "Full color changes, roofs, hoods and custom decals — a completely new look without a repaint.",
+      "Full color changes, roofs, hoods and custom decals. A completely new look without a repaint.",
     highlights: [
       "Full color changes",
       "Roofs, hoods & partial wraps",
@@ -222,10 +222,10 @@ export const SERVICES: Service[] = [
     page: {
       title: "Vinyl Wraps in Richardson & Dallas, TX",
       metaDescription:
-        "Vinyl wraps in Richardson, TX — full color changes, roof and hood wraps, and custom decals. Lifetime Warranty*. Get a quote from Dallas Tint Shop.",
+        "Vinyl wraps in Richardson, TX. Full color changes, roof and hood wraps, and custom decals. Lifetime Warranty*. Get a quote from Dallas Tint Shop.",
       h1: "Vinyl wraps in Richardson & Dallas",
       intro: [
-        "A wrap changes the whole character of a car without touching the paint underneath. Gloss or satin, subtle or loud — pick the finish, and we'll lay it down clean.",
+        "A wrap changes the whole character of a car without touching the paint underneath. Gloss or satin, subtle or loud: pick the finish, and we'll lay it down clean.",
         // "My turn M8 in for a full vehicle wrap", "Mustang GT came in for a
         //  partial hood wrap and full roof wrap", "G63 in for a fresh wrap on
         //  its hood", "Custom Satin Gold Porsche decals installed on this 718
@@ -235,7 +235,7 @@ export const SERVICES: Service[] = [
       faqs: [
         {
           q: "Do you do partial wraps?",
-          a: "Yes — roofs, hoods, accents and decals are all common jobs, as well as full color changes.",
+          a: "Yes. Roofs, hoods, accents and decals are all common jobs, as well as full color changes.",
         },
         {
           q: "Wrap or colored PPF?",
@@ -269,7 +269,7 @@ export const SERVICES: Service[] = [
       h1: "Ceramic coating in Richardson & Dallas",
       intro: [
         "Wax sits on top of your paint and wears off in weeks. A ceramic coating bonds to the surface and forms a hard, glossy layer that sheds water and dirt, so the car stays cleaner and every wash is quicker.",
-        "It pairs naturally with the rest of what we do — the Supra above came in for ceramic tint, a full ceramic coating and a wrap, and the Denali on our chrome delete page got a coating in the same visit.",
+        "It pairs naturally with the rest of what we do. The Supra above came in for ceramic tint, a full ceramic coating and a wrap, and the Denali on our chrome delete page got a coating in the same visit.",
       ],
       faqs: [
         {
@@ -304,7 +304,7 @@ export const SERVICES: Service[] = [
     page: {
       title: "Powder Coating in Richardson & Dallas, TX",
       metaDescription:
-        "Powder coating in Richardson, TX — a hard, heat-cured finish in the color you want. Lifetime Warranty*. Tell us about your parts and get a quote from Dallas Tint Shop.",
+        "Powder coating in Richardson, TX. A hard, heat-cured finish in the color you want. Lifetime Warranty*. Tell us about your parts and get a quote from Dallas Tint Shop.",
       h1: "Powder coating in Richardson & Dallas",
       intro: [
         "Powder coating is a dry powder applied to the part and cured with heat, leaving a hard, even finish that holds up far better than spray paint.",
@@ -313,7 +313,7 @@ export const SERVICES: Service[] = [
       faqs: [
         {
           q: "What can you powder coat?",
-          a: "Ask us. Describe the part — or send photos after we reply — and we'll confirm whether it's a job we can take on.",
+          a: "Ask us. Describe the part (or send photos after we reply) and we'll confirm whether it's a job we can take on.",
         },
         WARRANTY_FAQ,
       ],

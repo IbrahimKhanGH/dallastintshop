@@ -29,18 +29,18 @@ export default function WhySection() {
             title={
               <>
                 Built for{" "}
-                <span className="h-display-italic text-brand-red">drivers</span>
-                <br /> not commuters.
+                <span className="h-display-italic text-brand-red">Dallas</span>
+                <br /> car people.
               </>
             }
             description="We exist for one reason: deliver the level of work a Dallas car enthusiast actually wants. Here's how we keep that bar."
           />
 
           {/* Quote panel */}
-          <div className="card-edge mt-10 rounded-md bg-white/[0.03] p-6 backdrop-blur">
+          <div className="card-edge mt-10 rounded-md bg-white/[0.03] p-6">
             <div className="h-display text-4xl leading-none text-brand-red">“</div>
             <p className="-mt-2 text-base text-white/85 sm:text-lg">
-              Tint, PPF, and Wrap Experts — delivering protection &amp; restyling
+              Tint, PPF, and Wrap Experts, delivering protection &amp; restyling
               services. Good pricing. Great results.
             </p>
             <div className="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
@@ -80,10 +80,10 @@ export default function WhySection() {
             {WHY_POINTS.map((p) => (
               <li
                 key={p.n}
-                className="card-edge group relative overflow-hidden rounded-md bg-white/[0.03] p-6 transition-all hover:bg-white/[0.05]"
+                className="card-edge group relative overflow-hidden rounded-md bg-white/[0.03] p-6"
               >
                 <div className="flex items-start justify-between">
-                  <span className="h-display text-5xl leading-none text-brand-red/70 transition-colors group-hover:text-brand-red">
+                  <span className="h-display text-5xl leading-none text-brand-red">
                     {p.n}
                   </span>
                   <span className="h-px w-8 translate-y-3 bg-white/20" />

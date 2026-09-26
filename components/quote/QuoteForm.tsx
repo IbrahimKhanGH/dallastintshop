@@ -287,7 +287,7 @@ export default function QuoteForm({ initialService }: { initialService?: string 
 
   const progressPct = (Math.min(step, CONFIRM_STEP) / CONFIRM_STEP) * 100;
   const chipCls = (on: boolean) =>
-    `inline-flex min-h-11 items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors ${
+    `inline-flex min-h-11 items-center gap-2 border px-4 py-2 text-sm transition-colors ${
       on
         ? "border-brand-red bg-brand-red/15 text-white"
         : "border-white/15 bg-white/[0.03] text-white/80 hover:border-brand-red/60 hover:bg-brand-red/5"
@@ -297,9 +297,9 @@ export default function QuoteForm({ initialService }: { initialService?: string 
     <div ref={cardRef} className="card-edge rounded-md bg-black/60">
       {/* progress */}
       <div className="border-b border-white/10 px-6 pb-5 pt-6 sm:px-8">
-        <div className="h-1 w-full overflow-hidden rounded-full bg-white/10" aria-hidden>
+        <div className="h-1 w-full overflow-hidden bg-white/10" aria-hidden>
           <div
-            className="h-full rounded-full bg-red-grad transition-[width] duration-500 ease-out"
+            className="h-full bg-brand-red transition-[width] duration-500 ease-out"
             style={{ width: `${progressPct}%` }}
           />
         </div>
@@ -315,15 +315,15 @@ export default function QuoteForm({ initialService }: { initialService?: string 
                 aria-current={active ? "step" : undefined}
               >
                 <span
-                  className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] transition-colors ${
+                  className={`grid h-6 w-6 shrink-0 place-items-center text-[11px] transition-colors ${
                     done
                       ? "bg-brand-red text-white"
                       : active
-                        ? "bg-white text-black"
+                        ? "bg-brand-off text-black"
                         : "bg-white/10 text-white/60"
                   }`}
                 >
-                  {done ? "✓" : n === CONFIRM_STEP ? "★" : n}
+                  {n}
                 </span>
                 <span
                   className={`h-display hidden truncate text-[11px] uppercase tracking-[0.25em] sm:block ${
@@ -356,7 +356,7 @@ export default function QuoteForm({ initialService }: { initialService?: string 
           {/* ---------- step 1: service ---------- */}
           {step === 1 && (
             <StepShell title="What do you need?" sub="Tap everything you're interested in.">
-              <Field error={errors.service} message="Pick at least one — choose Other if it's not listed.">
+              <Field error={errors.service} message="Pick at least one, or choose Other if it's not listed.">
                 <div className="flex flex-wrap gap-2" role="group" aria-label="Services">
                   {QUOTE_SERVICES.map((s) => {
                     const on = services.includes(s.key);
@@ -456,7 +456,7 @@ export default function QuoteForm({ initialService }: { initialService?: string 
                 <Field
                   label="Body style (for tint)"
                   error={errors.bodyStyle}
-                  message="Pick one — tint pricing depends on the number of windows."
+                  message="Pick one. Tint pricing depends on the number of windows."
                 >
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3" role="group" aria-label="Body style">
                     {BODY_STYLES.map((b) => {
@@ -559,7 +559,7 @@ export default function QuoteForm({ initialService }: { initialService?: string 
                     }`}
                   >
                     {notes.length >= NOTES_MAX
-                      ? `${NOTES_MAX} character limit reached — call us with the rest`
+                      ? `${NOTES_MAX} character limit reached. Call us with the rest`
                       : `${NOTES_MAX - notes.length} characters left`}
                   </p>
                 )}
@@ -571,7 +571,7 @@ export default function QuoteForm({ initialService }: { initialService?: string 
           {step === 4 && (
             <StepShell
               title="How can we reach you?"
-              sub="Last step — we'll come back with an honest estimate."
+              sub="Last step. We'll come back with an honest estimate."
             >
               {/* Reading their request back cuts the "did that go through?"
                   feeling, and with it the duplicate submissions. */}
@@ -581,7 +581,7 @@ export default function QuoteForm({ initialService }: { initialService?: string 
                 </h3>
                 <dl className="mt-3 space-y-2 text-sm">
                   <SummaryRow label="Vehicle">
-                    {vehicle || "—"}
+                    {vehicle || "Not given"}
                     {quote.bodyStyle && <span className="text-white/60"> · {quote.bodyStyle}</span>}
                   </SummaryRow>
                   {quote.services.map((s) => (
@@ -701,16 +701,16 @@ export default function QuoteForm({ initialService }: { initialService?: string 
               <button
                 type="button"
                 onClick={next}
-                className="h-display group ml-auto inline-flex min-h-11 items-center gap-2 rounded-sm bg-red-grad px-6 text-xs uppercase tracking-[0.25em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg"
+                className="h-display group ml-auto inline-flex min-h-11 items-center gap-2 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 text-xs uppercase tracking-[0.25em] text-white transition-colors"
               >
                 Continue
-                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                <span>→</span>
               </button>
             ) : (
               <button
                 type="submit"
                 disabled={submitting}
-                className="h-display ml-auto inline-flex min-h-11 items-center gap-2 rounded-sm bg-red-grad px-6 text-xs uppercase tracking-[0.25em] text-white shadow-redGlow transition-all hover:-translate-y-0.5 hover:shadow-redGlowLg disabled:cursor-not-allowed disabled:opacity-60"
+                className="h-display ml-auto inline-flex min-h-11 items-center gap-2 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 text-xs uppercase tracking-[0.25em] text-white transition-colors disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting ? "Sending…" : "Request Quote"}
               </button>
@@ -771,7 +771,7 @@ function Confirmation({
 
   return (
     <div className="py-4 text-center">
-      <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-brand-red/15">
+      <div className="mx-auto grid h-16 w-16 place-items-center bg-brand-red/15">
         <svg
           width="30"
           height="30"
@@ -804,7 +804,7 @@ function Confirmation({
         className="mx-auto mt-3 max-w-md text-sm text-white/70"
       >
         {nothingLanded
-          ? "We couldn't confirm delivery of your request. Send it to us directly with the button below — it's already filled in for you."
+          ? "We couldn't confirm delivery of your request. Send it to us directly with the button below. It's already filled in for you."
           : contactPref
             ? CONFIRM_MSGS[contactPref]
             : "We'll be in touch with your estimate shortly."}
@@ -816,7 +816,7 @@ function Confirmation({
         {!nothingLanded && (
           <a
             href={BUSINESS.phoneHref}
-            className="h-display inline-flex items-center justify-center gap-2 rounded-sm bg-red-grad px-6 py-4 text-xs uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5"
+            className="h-display inline-flex items-center justify-center gap-2 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition-colors"
           >
             Can&apos;t wait? Call {BUSINESS.phone}
           </a>
@@ -827,7 +827,7 @@ function Confirmation({
             href={smsHref(message)}
             className={
               nothingLanded
-                ? "h-display inline-flex items-center justify-center gap-2 rounded-sm bg-red-grad px-6 py-4 text-xs uppercase tracking-[0.2em] text-white shadow-redGlow transition-all hover:-translate-y-0.5"
+                ? "h-display inline-flex items-center justify-center gap-2 rounded-sm bg-brand-red shadow-redGlow hover:bg-brand-redDark px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition-colors"
                 : "h-display inline-flex items-center justify-center gap-2 rounded-sm border border-white/15 bg-white/[0.04] px-6 py-3.5 text-xs uppercase tracking-[0.2em] text-white/85 transition-colors hover:bg-white/10"
             }
           >
