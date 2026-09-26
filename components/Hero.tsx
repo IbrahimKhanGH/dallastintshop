@@ -3,6 +3,7 @@ import Link from "next/link";
 import DallasSkyline from "./DallasSkyline";
 import { BUSINESS, CERTIFICATION, WARRANTY } from "@/lib/business";
 import { SERVICES, servicePath } from "@/lib/services";
+import { GOOGLE_REVIEW_TOTAL } from "@/lib/reviews/curated";
 
 export default function Hero() {
   return (
@@ -74,7 +75,7 @@ export default function Hero() {
 
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6 text-sm">
             <a href="#reviews" className="text-white/85 underline-offset-4 hover:underline">
-              Read our Google reviews →
+              <span className="text-white">Rated 5.0</span> from {GOOGLE_REVIEW_TOTAL.count}+ Google reviews →
             </a>
             <a
               href={BUSINESS.google.directionsUrl}

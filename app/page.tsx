@@ -19,7 +19,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: `${BUSINESS.name} | Window Tint, PPF & Wraps in Richardson, TX`,
   description:
-    "LLumar Certified window tint, paint protection film, vinyl wraps, ceramic coating, powder coating and chrome delete in Richardson, TX, serving Dallas. Lifetime Warranty*.",
+    "LLumar Certified window tint, PPF, vinyl wraps, ceramic coating and chrome delete in Richardson, TX. Rated 5.0 from 145+ Google reviews. Lifetime Warranty*.",
   path: "/",
   absoluteTitle: true,
 });
@@ -35,6 +35,32 @@ export default function HomePage() {
       <Hero />
 
       <TrustStrip />
+
+      <section
+        id="reviews"
+        className="relative isolate scroll-mt-20 overflow-hidden border-t border-white/10 bg-brand-black py-20 sm:py-28"
+      >
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_40%_at_50%_0%,rgba(193,18,31,0.16)_0%,transparent_70%)]" />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            eyebrow="Google reviews"
+            title={
+              <>
+                Straight from{" "}
+                <span className="h-display-italic text-brand-red">our customers.</span>
+              </>
+            }
+          />
+          <div className="mt-10">
+            <GoogleReviews
+              initial={CURATED_REVIEWS}
+              liveEnabled={liveReviews}
+              reviewsUrl={BUSINESS.google.reviewsUrl}
+              writeReviewUrl={BUSINESS.google.writeReviewUrl}
+            />
+          </div>
+        </div>
+      </section>
 
       <section
         id="services"
@@ -90,32 +116,6 @@ export default function HomePage() {
       <WorkShowcase />
 
       <WhySection />
-
-      <section
-        id="reviews"
-        className="relative isolate scroll-mt-20 overflow-hidden border-t border-white/10 bg-brand-black py-20 sm:py-28"
-      >
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_40%_at_50%_0%,rgba(193,18,31,0.16)_0%,transparent_70%)]" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            eyebrow="Google reviews"
-            title={
-              <>
-                Straight from{" "}
-                <span className="h-display-italic text-brand-red">our customers.</span>
-              </>
-            }
-          />
-          <div className="mt-10">
-            <GoogleReviews
-              initial={CURATED_REVIEWS}
-              liveEnabled={liveReviews}
-              reviewsUrl={BUSINESS.google.reviewsUrl}
-              writeReviewUrl={BUSINESS.google.writeReviewUrl}
-            />
-          </div>
-        </div>
-      </section>
 
       <CTASection />
 

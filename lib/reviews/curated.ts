@@ -24,11 +24,12 @@ import type { Review } from "./types";
    Adding more: quote verbatim, keep the author's name as Google shows it,
    and check the listing — "Dallas Window Tint" at 10825 Plano Rd is a
    different company. */
-/* The listing's total review count, read off the Google Business Profile
-   by the owner's developer. A snapshot: it goes stale as new reviews come
-   in, so update it (and the date) now and then. When live Google data is
-   configured, the live count replaces it on the page. */
-export const GOOGLE_REVIEW_TOTAL = { count: 147, asOf: "2026-09-25" } as const;
+/* The listing's total review count (5.0 rating), read off the Google
+   Business Profile. Shown as "145+" so it stays true as reviews come in;
+   bump it (and the date) now and then. If the rating ever drops below 5.0,
+   the five stars beside it in GoogleReviews.tsx must change too. When live
+   Google data is configured, the live rating and count replace it. */
+export const GOOGLE_REVIEW_TOTAL = { count: 145, asOf: "2026-09-25" } as const;
 
 export const CURATED_REVIEWS: Review[] = [
   {

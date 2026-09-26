@@ -114,7 +114,7 @@ export default function GoogleReviews({ initial, liveEnabled, reviewsUrl, writeR
           // review on it was five stars when it was taken.
           <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
             <span className="h-display text-[clamp(4.5rem,12vw,8rem)] leading-[0.8] text-white">
-              {GOOGLE_REVIEW_TOTAL.count}
+              {GOOGLE_REVIEW_TOTAL.count}+
             </span>
             <div className="pb-1">
               <Stars rating={5} size={26} />
